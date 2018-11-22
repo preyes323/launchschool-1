@@ -1,2 +1,3 @@
 * Notes
+* Another note
 * Tasks
