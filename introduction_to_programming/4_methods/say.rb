@@ -1,8 +1,8 @@
-def say(words)
-  puts words + '.'    ## <= We only make the change here!
+def say(words='hello')
+  puts words + '.'
 end
 
-say("hello")
+say()
 say("hi")
 say("how are you")
 say("I'm fine")
