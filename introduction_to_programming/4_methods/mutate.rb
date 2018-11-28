@@ -6,5 +6,5 @@ def mutate(array)
 end
 
 p "Before mutate method: #{a}"
-mutate(a)
+p mutate(a)
 p "After mutate method: #{a}"
