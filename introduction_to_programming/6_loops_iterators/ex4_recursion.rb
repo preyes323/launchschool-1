@@ -1,3 +1,5 @@
+# note that this only works for positive integers
+
 def count_to_zero(number)
   puts number
   unless number == 0
