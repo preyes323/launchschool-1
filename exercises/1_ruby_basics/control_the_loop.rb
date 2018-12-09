@@ -1,7 +1,9 @@
-iterations = 5
+iterations = 1
 
-iterations.times do
-  puts "Number of iterations = #{iterations}"
+loop do
+  while iterations < 6
+    puts "Number of iterations = #{iterations}"
+    iterations += 1
+  end
+  break
 end
-
-
