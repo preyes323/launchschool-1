@@ -1,3 +1,4 @@
+# program to perform calculations
 # ask the user for two numbers
 # ask the user for an operation to perform
 # perform the operation on the two numbers
@@ -5,10 +6,6 @@
 
 def prompt(message)
   Kernel.puts("=> #{message}")
-end
-
-def valid_number?(num)
-  num.to_i() != 0
 end
 
 def operation_to_message(op)
@@ -45,7 +42,7 @@ loop do # main loop
     prompt("What's the first number?")
     number1 = Kernel.gets().chomp()
   
-    if valid_number?(number1) then break
+    if number1.integer? then break
     else prompt("Hmm... that doesn't look like a valid number")
     end
   end
@@ -54,7 +51,7 @@ loop do # main loop
     prompt("What's the second number?")
     number2 = Kernel.gets().chomp()
   
-    if valid_number?(number2) then break
+    if number2.integer? then break
     else prompt("Hmm... that doesn't look like a valid number")
     end
   end
