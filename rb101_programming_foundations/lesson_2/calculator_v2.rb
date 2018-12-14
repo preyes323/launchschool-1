@@ -25,9 +25,9 @@ operator = nil
 prompt("Welcome to the Calculator! Enter your name:")
 
 loop do
-  name = Kernel.gets().chomp()
+  name = Kernel.gets.chomp
 
-  if name.empty?()
+  if name.empty?
     prompt("Make sure to use a valid name.")
   else
     break
@@ -40,7 +40,7 @@ loop do # main loop
 
   loop do
     prompt("What's the first number?")
-    number1 = Kernel.gets().chomp()
+    number1 = Kernel.gets.chomp
   
     if number1.integer? then break
     else prompt("Hmm... that doesn't look like a valid number")
@@ -49,7 +49,7 @@ loop do # main loop
   
   loop do
     prompt("What's the second number?")
-    number2 = Kernel.gets().chomp()
+    number2 = Kernel.gets.chomp
   
     if number2.integer? then break
     else prompt("Hmm... that doesn't look like a valid number")
@@ -66,7 +66,7 @@ loop do # main loop
   prompt(operator_prompt)
 
   loop do
-    operator = Kernel.gets().chomp()
+    operator = Kernel.gets.chomp
     if %w(1 2 3 4).include?(operator) then break
     else prompt("Must choose 1, 2, 3 or 4")
     end
@@ -75,16 +75,16 @@ loop do # main loop
   prompt("#{operation_to_message(operator)} the two numbers...")
   
   result = case operator
-           when '1' then number1.to_i() + number2.to_i()
-           when '2' then number1.to_i() - number2.to_i()
-           when '3' then number1.to_i() * number2.to_i()
-           when '4' then number1.to_i() / number2.to_i()
+           when '1' then number1.to_i + number2.to_i
+           when '2' then number1.to_i - number2.to_i
+           when '3' then number1.to_i * number2.to_i
+           when '4' then number1.to_i / number2.to_i
            end
   
   prompt("The result is #{result}")
   prompt("Do you want to calculate again? (Y to calculate again)")
-  answer = Kernel.gets().chomp()
-  break unless answer.downcase().start_with?('y')
+  answer = Kernel.gets.chomp
+  break unless answer.downcase.start_with?('y')
   
 end
 
