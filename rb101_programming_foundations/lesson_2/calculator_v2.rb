@@ -37,20 +37,16 @@ end
 prompt("Hi #{name}!")
 
 loop do # main loop
-
   loop do
     prompt("What's the first number?")
     number1 = gets.chomp
-  
     if number1.integer? then break
     else prompt("Hmm... that doesn't look like a valid number")
     end
   end
-  
   loop do
     prompt("What's the second number?")
     number2 = gets.chomp
-  
     if number2.integer? then break
     else prompt("Hmm... that doesn't look like a valid number")
     end
@@ -73,19 +69,16 @@ loop do # main loop
   end
 
   prompt("#{operation_to_message(operator)} the two numbers...")
-  
   result = case operator
            when '1' then number1.to_i + number2.to_i
            when '2' then number1.to_i - number2.to_i
            when '3' then number1.to_i * number2.to_i
            when '4' then number1.to_i / number2.to_i
            end
-  
   prompt("The result is #{result}")
   prompt("Do you want to calculate again? (Y to calculate again)")
   answer = gets.chomp
   break unless answer.downcase.start_with?('y')
-  
 end
 
 prompt("Thank you for using calculator!")
