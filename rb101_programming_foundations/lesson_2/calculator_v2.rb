@@ -40,7 +40,7 @@ loop do # main loop
 
   loop do
     prompt("What's the first number?")
-    number1 = Kernel.gets.chomp
+    number1 = gets.chomp
   
     if number1.integer? then break
     else prompt("Hmm... that doesn't look like a valid number")
