@@ -17,6 +17,12 @@ def operation_to_message(op)
   end
 end
 
+# a method to validate that we're taking in an int or a float
+# returns a boolean
+def number?(input)
+  input.to_i == input || input.to_f == input ? true : false
+end
+
 number1 = nil
 number2 = nil
 name = nil
