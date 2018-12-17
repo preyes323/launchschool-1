@@ -46,14 +46,14 @@ loop do # main loop
   loop do
     prompt("What's the first number?")
     number1 = gets.chomp.to_i
-    if number1.integer? then break
+    if number1.number? then break
     else prompt("Hmm... that doesn't look like a valid number")
     end
   end
   loop do
     prompt("What's the second number?")
     number2 = gets.chomp.to_i
-    if number2.integer? then break
+    if number2.number? then break
     else prompt("Hmm... that doesn't look like a valid number")
     end
   end
