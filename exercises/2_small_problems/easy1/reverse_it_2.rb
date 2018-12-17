@@ -1,12 +1,10 @@
 def reverse_words(string)
   reversed_string = []
   string.split.each do |word|
-    if word.size >= 5
-      reversed_string.push(word.reverse)
-    else
-      reversed_string.push(word)
-    end
+    word.reverse! if word.size >= 5
+    reversed_string.push(word)
   end
+  
   reversed_string.join(' ')
 end
 
