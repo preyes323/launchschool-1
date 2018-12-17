@@ -1,9 +1,6 @@
 def digit_list(int)
   list = int.to_s.split('')
-  list.map! do |number|
-    number.to_i
-  end
-  list
+  return list.map { |number| number.to_i }
 end
 
 puts digit_list(12345) == [1, 2, 3, 4, 5]     # => true
