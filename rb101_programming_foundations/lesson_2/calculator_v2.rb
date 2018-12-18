@@ -20,12 +20,11 @@ def operation_to_message(op)
   end
 end
 
-# COMMENTING OUT THIS METHOD SINCE IT IS UNUSED IN THE CODE
 # a method to validate that we're taking in an int or a float
 # returns a boolean
-# def number?(input)
-#   input.to_i == input || input.to_f == input ? true : false
-# end
+def number?(input)
+  input.to_i == input || input.to_f == input ? true : false
+end
 
 number1 = nil
 number2 = nil
@@ -50,14 +49,14 @@ loop do # main loop
   loop do
     prompt(MESSAGES['first_number'])
     number1 = gets.chomp.to_i
-    if number1.integer? then break
+    if number1.number? then break
     else prompt(MESSAGES['valid_number'])
     end
   end
   loop do
     prompt(MESSAGES['second_number'])
     number2 = gets.chomp.to_i
-    if number2.integer? then break
+    if number2.number? then break
     else prompt(MESSAGES['valid_number'])
     end
   end
