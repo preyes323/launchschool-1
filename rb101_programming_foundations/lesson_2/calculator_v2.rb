@@ -20,10 +20,18 @@ def operation_to_message(op)
   end
 end
 
+def integer?(input)
+  input.to_i.to_s == input
+end
+
+def float?(input)
+  input.to_f.to_s == input
+end
+
 # a method to validate that we're taking in an int or a float
 # returns a boolean
 def number?(input)
-  input.to_i == input || input.to_f == input ? true : false
+  integer?(input) || float?(input)
 end
 
 number1 = nil
@@ -48,15 +56,15 @@ prompt("Hi #{name}!")
 loop do # main loop
   loop do
     prompt(MESSAGES['first_number'])
-    number1 = gets.chomp.to_i
-    if number1.number? then break
+    number1 = gets.chomp
+    if number?(number1) then break
     else prompt(MESSAGES['valid_number'])
     end
   end
   loop do
     prompt(MESSAGES['second_number'])
-    number2 = gets.chomp.to_i
-    if number2.number? then break
+    number2 = gets.chomp
+    if number?(number2) then break
     else prompt(MESSAGES['valid_number'])
     end
   end
@@ -78,12 +86,21 @@ loop do # main loop
   end
 
   prompt("#{operation_to_message(operator)} the two numbers...")
-  result = case operator
-           when '1' then number1.to_i + number2.to_i
-           when '2' then number1.to_i - number2.to_i
-           when '3' then number1.to_i * number2.to_i
-           when '4' then number1.to_i / number2.to_i
-           end
+  if integer?(number1) && integer?(number2)
+    result = case operator
+             when '1' then number1.to_i + number2.to_i
+             when '2' then number1.to_i - number2.to_i
+             when '3' then number1.to_i * number2.to_i
+             when '4' then number1.to_i / number2.to_i
+             end
+  else
+    result = case operator
+             when '1' then number1.to_f + number2.to_f
+             when '2' then number1.to_f - number2.to_f
+             when '3' then number1.to_f * number2.to_f
+             when '4' then number1.to_f / number2.to_f
+             end
+  end
   prompt("The result is #{result}")
   prompt(MESSAGES['calculate_again'])
   answer = gets.chomp
