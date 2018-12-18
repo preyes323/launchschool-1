@@ -4,6 +4,10 @@
 # perform the operation on the two numbers
 # output the result
 
+require 'yaml'
+MESSAGES = YAML.load_file('calculator_messages.yml')
+puts MESSAGES.inspect
+
 def prompt(message)
   puts("=> #{message}")
 end
@@ -17,11 +21,12 @@ def operation_to_message(op)
   end
 end
 
+# COMMENTING OUT THIS METHOD SINCE IT IS UNUSED IN THE CODE
 # a method to validate that we're taking in an int or a float
 # returns a boolean
-def number?(input)
-  input.to_i == input || input.to_f == input ? true : false
-end
+# def number?(input)
+#   input.to_i == input || input.to_f == input ? true : false
+# end
 
 number1 = nil
 number2 = nil
@@ -46,14 +51,14 @@ loop do # main loop
   loop do
     prompt("What's the first number?")
     number1 = gets.chomp.to_i
-    if number1.number? then break
+    if number1.integer? then break
     else prompt("Hmm... that doesn't look like a valid number")
     end
   end
   loop do
     prompt("What's the second number?")
     number2 = gets.chomp.to_i
-    if number2.number? then break
+    if number2.integer? then break
     else prompt("Hmm... that doesn't look like a valid number")
     end
   end
