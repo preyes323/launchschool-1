@@ -1,2 +1,9 @@
 welcome: "Welcome to the Calculator! Enter your name:"
 valid_name: "Make sure to use a valid name."
+first_number: "What's the first number?"
+second_number: "What's the second number?"
+valid_number: "Hmm... that doesn't look like a valid number"
+valid_operation: "Must choose 1, 2, 3 or 4"
+calculate_again: "Do you want to calculate again? (Y to calculate
+again)"
+thanks: "Thank you for using the calculator! Goodbye!"
