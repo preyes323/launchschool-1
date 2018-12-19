@@ -113,7 +113,7 @@ loop do # main loop
   prompt("The result is #{result}")
   prompt(MESSAGES['calculate_again'])
   answer = gets.chomp
-  break unless answer.downcase.start_with?('y')
+  break unless answer.downcase == ('y')
 end
 
 prompt(MESSAGES['thanks'])
