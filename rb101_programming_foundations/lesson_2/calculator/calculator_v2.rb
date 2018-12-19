@@ -113,6 +113,7 @@ loop do # main loop
   prompt("The result is #{result}")
   prompt(MESSAGES['calculate_again'])
   answer = gets.chomp
+  system('clear') || system('cls')
   break unless answer.downcase == ('y')
 end
 
