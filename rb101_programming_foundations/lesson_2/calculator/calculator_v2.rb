@@ -43,6 +43,19 @@ def fake_name?(input)
   end
 end
 
+def integer_inputs?(num1, num2)
+  integer?(num1) && integer?(num2)
+end
+
+def calculate_result(num1, num2, operator)
+  case operator
+  when '1' then num1 + num2
+  when '2' then num1 - num2
+  when '3' then num1 * num2
+  when '4' then num1 / num2
+  end
+end
+
 number1 = nil
 number2 = nil
 name = nil
@@ -95,21 +108,16 @@ loop do # main loop
   end
 
   prompt("#{operation_to_message(operator)} the two numbers...")
-  if integer?(number1) && integer?(number2)
-    result = case operator
-             when '1' then number1.to_i + number2.to_i
-             when '2' then number1.to_i - number2.to_i
-             when '3' then number1.to_i * number2.to_i
-             when '4' then number1.to_i / number2.to_i
-             end
+  if integer_inputs?(number1, number2)
+    number1 = number1.to_i
+    number2 = number2.to_i
   else
-    result = case operator
-             when '1' then number1.to_f + number2.to_f
-             when '2' then number1.to_f - number2.to_f
-             when '3' then number1.to_f * number2.to_f
-             when '4' then number1.to_f / number2.to_f
-             end
+    number1 = number1.to_f
+    number2 = number2.to_f
   end
+
+  result = calculate_result(number1, number2, operator)
+  
   prompt("The result is #{result}")
   prompt(MESSAGES['calculate_again'])
   answer = gets.chomp
