@@ -62,8 +62,10 @@ loop do # main loop
     prompt("What is your Annual Percentage Rate (APR)?")
     prompt("Please give the number as a percentage i.e. 5")
     apr_input = gets.chomp
-    if number?(apr_input) && apr_input.to_i > 0 && apr_input.to_i <= 100 then break
-    else prompt("Please enter a valid number.")
+    if number?(apr_input) && apr_input.to_i > 0 && apr_input.to_i <= 100
+      break
+    else
+      prompt("Please enter a valid number.")
     end
   end
 
@@ -80,7 +82,7 @@ loop do # main loop
   loan_duration_months = loan_duration_input.to_i * 12
   monthly_payment = loan_total *
                     (monthly_interest_rate /
-                     (1 - (1 + monthly_interest_rate) ** -loan_duration_months))
+                     (1 - (1 + monthly_interest_rate)**-loan_duration_months))
   prompt("Calculating your monthly payment...")
   puts "----------------------------------------------"
   prompt("Your monthly payment comes out to #{monthly_payment.round(2)} USD.")
