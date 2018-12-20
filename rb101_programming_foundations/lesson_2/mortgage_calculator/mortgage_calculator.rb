@@ -53,7 +53,7 @@ loop do # main loop
   loop do
     prompt("What is the loan amount in USD?")
     loan_input = gets.chomp
-    if number?(loan_input) then break
+    if number?(loan_input) && loan_input.to_i > 0 then break
     else prompt("Please enter a valid number.")
     end
   end
@@ -62,7 +62,7 @@ loop do # main loop
     prompt("What is your Annual Percentage Rate (APR)?")
     prompt("Please give the number as a percentage i.e. 5")
     apr_input = gets.chomp
-    if number?(apr_input) then break
+    if number?(apr_input) && apr_input.to_i > 0 && apr_input.to_i <= 100 then break
     else prompt("Please enter a valid number.")
     end
   end
@@ -70,7 +70,7 @@ loop do # main loop
   loop do
     prompt("What is the loan duration in years?")
     loan_duration_input = gets.chomp
-    if number?(loan_duration_input) then break
+    if number?(loan_duration_input) && loan_duration_input.to_i > 0 then break
     else prompt("Please enter a valid number.")
     end
   end
