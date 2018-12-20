@@ -1,5 +1,8 @@
-def teddy_age
-  "Teddy is #{rand(20..200)} years old!"
+puts "What is your name?"
+name = gets.chomp
+
+def age_printer(name='Teddy')
+  "#{name} is #{rand(20..200)} years old!"
 end
 
-puts teddy_age
+puts age_printer
