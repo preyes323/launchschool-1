@@ -78,15 +78,14 @@ loop do # main loop
   loan_total = loan_input.to_f
   monthly_interest_rate = apr_input.to_f / 12
   loan_duration_months = loan_duration_input.to_i * 12
-  monthly_payment = loan_total * (monthly_interest_rate / (1 - (1 + monthly_interest_rate)**(-loan_duration_months)))
-  
+  monthly_payment = loan_total * (monthly_interest_rate / (1 - (1 + monthly_interest_rate)**-loan_duration_months))
   prompt("Calculating your monthly payment...")
   puts "----------------------------------------------"
   prompt("Your monthly payment comes out to #{monthly_payment.round(2)} USD.")
   puts "----------------------------------------------"
   prompt("Would you like to do another mortgage calculation?")
   answer = gets.chomp
-  break unless answer.downcase == ('y')
+  break unless answer.downcase == 'y'
   system('clear') || system('cls')
 end
 
