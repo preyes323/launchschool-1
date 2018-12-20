@@ -89,8 +89,8 @@ loop do # main loop
   puts "----------------------------------------------"
   prompt("Would you like to do another mortgage calculation?")
   prompt("Type Y for yes")
-  answer = gets.chomp
-  break unless answer.downcase == 'y'
+  calculate_again = gets.chomp
+  break unless calculate_again.downcase == 'y'
   system('clear') || system('cls')
 end
 
