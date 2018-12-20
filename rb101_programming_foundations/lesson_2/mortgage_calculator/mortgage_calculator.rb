@@ -84,6 +84,7 @@ loop do # main loop
   prompt("Your monthly payment comes out to #{monthly_payment.round(2)} USD.")
   puts "----------------------------------------------"
   prompt("Would you like to do another mortgage calculation?")
+  prompt("Type Y for yes")
   answer = gets.chomp
   break unless answer.downcase == 'y'
   system('clear') || system('cls')
