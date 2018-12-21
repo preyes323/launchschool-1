@@ -72,7 +72,7 @@ loop do # main loop
   loop do
     prompt("What is the loan duration in years?")
     loan_duration_input = gets.chomp
-    if number?(loan_duration_input) && loan_duration_input.to_i > 0 then break
+    if integer?(loan_duration_input) && loan_duration_input.to_i > 0 then break
     else prompt("Please enter a valid number.")
     end
   end
