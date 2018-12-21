@@ -62,7 +62,7 @@ loop do # main loop
     prompt("What is your Annual Percentage Rate (APR)?")
     prompt("Please give the number as a percentage i.e. 5")
     apr_input = gets.chomp
-    if number?(apr_input) && apr_input.to_i > 0 && apr_input.to_i <= 100
+    if number?(apr_input) && apr_input.to_f > 0 && apr_input.to_f <= 100
       break
     else
       prompt("Please enter a valid number.")
