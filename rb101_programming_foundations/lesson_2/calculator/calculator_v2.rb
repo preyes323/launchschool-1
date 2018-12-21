@@ -114,11 +114,10 @@ loop do # main loop
   end
 
   result = calculate_result(number1, number2, operator)
-  
   prompt("The result is #{result}")
   prompt(MESSAGES['calculate_again'])
   answer = gets.chomp
-  break unless answer.downcase == ('y')
+  break unless answer.downcase == 'y'
   system('clear') || system('cls')
 end
 
