@@ -54,7 +54,7 @@ loop do # main loop
     prompt("What is the loan amount in USD?")
     loan_input = gets.chomp
     if number?(loan_input) && loan_input.to_i > 0 then break
-    else prompt("Please enter a valid number.")
+    else prompt("Please enter a positive number.")
     end
   end
 
@@ -65,7 +65,7 @@ loop do # main loop
     if number?(apr_input) && apr_input.to_f > 0 && apr_input.to_f <= 100
       break
     else
-      prompt("Please enter a valid number.")
+      prompt("Please enter a positive number.")
     end
   end
 
@@ -73,7 +73,7 @@ loop do # main loop
     prompt("What is the loan duration in years?")
     loan_duration_input = gets.chomp
     if integer?(loan_duration_input) && loan_duration_input.to_i > 0 then break
-    else prompt("Please enter a valid number.")
+    else prompt("Please enter a positive whole number.")
     end
   end
 
