@@ -19,11 +19,8 @@ def number?(input)
   integer?(input) || float?(input)
 end
 
-def fake_name?(input)
-  case input
-  when nil then true
-  when ' ' then true
-  when '' then true
+def invalid_name?(input)
+  if input.to_s.empty? then true
   else false
   end
 end
@@ -38,9 +35,9 @@ prompt("What's your name?")
 
 name = nil
 loop do
-  name = gets.chomp
+  name = gets.chomp.strip
 
-  if name.empty?
+  if invalid_name?(name)
     prompt("Make sure to use a valid name.")
   else
     break
