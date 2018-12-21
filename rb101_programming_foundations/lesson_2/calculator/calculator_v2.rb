@@ -34,11 +34,8 @@ def number?(input)
   integer?(input) || float?(input)
 end
 
-def fake_name?(input)
-  case input
-  when nil then true
-  when ' ' then true
-  when '' then true
+def invalid_name?(input)
+  if input.to_s.empty? then true
   else false
   end
 end
@@ -64,9 +61,9 @@ operator = nil
 prompt(MESSAGES['welcome'])
 
 loop do
-  name = gets.chomp
+  name = gets.chomp.strip
 
-  if fake_name?(name)
+  if invalid_name?(name)
     prompt(MESSAGES['valid_name'])
   else
     break
