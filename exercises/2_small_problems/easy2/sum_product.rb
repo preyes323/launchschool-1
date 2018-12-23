@@ -1,15 +1,11 @@
 # this code assumes that inputs are valid
 
 def compute_sum(input)
-  total = 0
-  (1..input).each {|num| total += num }
-  total
+  (1..input).inject(:+)
 end
 
 def compute_product(input)
-  total = 1
-  (1..input).each {|num| total = total * num }
-  total
+  (1..input).inject(:*)
 end
 
 def validate_positive_integer?(input)
