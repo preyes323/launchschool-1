@@ -1,5 +1,3 @@
-# this code assumes that inputs are valid
-
 def compute_sum(input)
   (1..input).inject(:+)
 end
