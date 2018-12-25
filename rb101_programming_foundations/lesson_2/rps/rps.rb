@@ -36,12 +36,14 @@ loop do
   choice = nil
   loop do
     prompt("Choose one: #{VALID_CHOICES.join(', ')}")
-    prompt("You can use an abbreviated form as well.")
+    prompt("You can use an abbreviated form as well. i.e.:")
     ALTERNATIVE_CHOICES.each {|key, value|
-      puts "Use #{key} for #{value}"}
+      puts "Type #{key} for #{value}"}
     choice = gets.chomp
-    if VALID_CHOICES.include?(choice) ||
-       VALID_CHOICES.include?(ALTERNATIVE_CHOICES[choice])
+    if VALID_CHOICES.include?(choice)
+      break
+    elsif VALID_CHOICES.include?(ALTERNATIVE_CHOICES[choice])
+      choice = ALTERNATIVE_CHOICES[choice]
       break
     else
       prompt("That's not a valid choice.")
