@@ -24,16 +24,15 @@ loop do
     prompt("Choose one: #{VALID_CHOICES.join(', ')}")
     choice = gets.chomp
     if VALID_CHOICES.include?(choice) then break
-    else prompt("That's not a valid choice. Please choose one of the given options.")
+    else
+      prompt("That's not a valid choice.")
+      prompt("Please choose one of the given options.")
     end
   end
-  
   computer_choice = VALID_CHOICES.sample
-  
   prompt("You chose: #{choice}; Computer chose: #{computer_choice}")
 
   display_results(choice, computer_choice)
-  
   prompt("Do you want to play again?")
   answer = gets.chomp
   break unless answer.downcase() == "y"
