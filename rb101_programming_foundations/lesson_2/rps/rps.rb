@@ -1,4 +1,9 @@
 VALID_CHOICES = ['rock', 'paper', 'scissors', 'spock', 'lizard']
+ALTERNATIVE_CHOICES = {'r' => 'rock',
+                       'p' => 'paper',
+                       'sc' => 'scissors',
+                       'sp' => 'spock',
+                       'l' => 'lizard'}
 
 def prompt(message)
   puts "=> #{message}"
@@ -31,8 +36,13 @@ loop do
   choice = nil
   loop do
     prompt("Choose one: #{VALID_CHOICES.join(', ')}")
+    prompt("You can use an abbreviated form as well.")
+    ALTERNATIVE_CHOICES.each {|key, value|
+      puts "Use #{key} for #{value}"}
     choice = gets.chomp
-    if VALID_CHOICES.include?(choice) then break
+    if VALID_CHOICES.include?(choice) ||
+       VALID_CHOICES.include?(ALTERNATIVE_CHOICES[choice])
+      break
     else
       prompt("That's not a valid choice.")
       prompt("Please choose one of the given options.")
