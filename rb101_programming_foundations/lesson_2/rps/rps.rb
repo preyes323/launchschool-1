@@ -15,7 +15,7 @@ def display_results(user_choice, computer_choice)
     prompt("Computer won!")
   else
     prompt("It's a tie!")
-  end  
+  end
 end
 
 loop do
