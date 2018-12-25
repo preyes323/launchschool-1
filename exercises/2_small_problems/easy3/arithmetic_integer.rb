@@ -8,3 +8,7 @@ puts "#{num1} * #{num2} = #{num1*num2}"
 puts "#{num1} / #{num2} = #{num1/num2}"
 puts "#{num1} % #{num2} = #{num1%num2}"
 puts "#{num1} ** #{num2} = #{num1**num2}"
+
+# Further Exploration
+# to run this exercise with floats,
+# replace the to_i with a to_f in line 2 and 4
