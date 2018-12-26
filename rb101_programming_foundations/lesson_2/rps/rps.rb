@@ -42,7 +42,7 @@ until results['player'] == 5 || results ['computer'] == 5
     prompt("Choose one: #{VALID_CHOICES.join(', ')}")
     prompt("You can use an abbreviated form as well. i.e.:")
     ALTERNATIVE_CHOICES.each { |key, value| puts "Type #{key} for #{value}" }
-    choice = gets.chomp
+    choice = gets.chomp.downcase
     if VALID_CHOICES.include?(choice)
       break
     elsif VALID_CHOICES.include?(ALTERNATIVE_CHOICES[choice])
