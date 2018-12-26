@@ -54,6 +54,7 @@ until results['player'] == 5 || results ['computer'] == 5
     end
   end
   computer_choice = VALID_CHOICES.sample
+  system('clear') || system('cls')
   prompt("You chose: #{choice}; Computer chose: #{computer_choice}")
 
   prompt(return_results(choice, computer_choice))
