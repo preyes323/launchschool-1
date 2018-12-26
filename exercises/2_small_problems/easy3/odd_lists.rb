@@ -1,3 +1,23 @@
+def oddities3(array)
+  index = 0
+  final_array = []
+  for i in array
+    final_array << i if index.even?
+    index +=1
+  end
+  final_array
+end
+
+def oddities4(array)
+  index = 0
+  final_array = []
+  while index < array.size
+    final_array << array[index] if index.even?
+    index += 1
+  end
+  final_array
+end
+  
 def oddities2(array)
   array.select {|item| array.index(item).even? }
 end
@@ -35,3 +55,5 @@ puts oddities([]) == []
 puts evenities([1,2,3,4,5]) == [2, 4]
 
 puts oddities2([2,3,4,5,6]) == [2,4,6]
+puts oddities3([2,3,4,5,6]) == [2,4,6]
+puts oddities4([2,3,4,5,6]) == [2,4,6]
