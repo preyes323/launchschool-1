@@ -32,6 +32,10 @@ results = { 'player' => 0,
             'computer' => 0 }
 round_number = 1
 
+prompt("Welcome to the game!")
+prompt("Today we're playing rock, paper, scissors, lizard, spock.")
+prompt("You need 5 wins of individual games to be the overall winner.")
+
 until results['player'] == 5 || results ['computer'] == 5
   choice = nil
   loop do
