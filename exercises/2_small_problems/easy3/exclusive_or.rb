@@ -1,5 +1,5 @@
 def xor?(arg1, arg2)
-  arg1 == true && arg2 == false || arg2 == true && arg1 == false
+  (arg1 && !arg2) || (arg2 && !arg1)
 end
 
 puts xor?(5.even?, 4.even?) == true
