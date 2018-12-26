@@ -15,14 +15,18 @@ def prompt(message)
   puts "=> #{message}"
 end
 
-def win?(first, second)
+def player_won?(first, second)
+  WINNING_CHOICES[first].include?(second)
+end
+
+def computer_won?(first, second)
   WINNING_CHOICES[first].include?(second)
 end
 
 def return_results(user_choice, computer_choice)
-  if win?(user_choice, computer_choice)
+  if player_won?(user_choice, computer_choice)
     "You won!"
-  elsif win?(computer_choice, user_choice)
+  elsif computer_won?(computer_choice, user_choice)
     "Computer won!"
   else
     "It's a tie!"
@@ -59,10 +63,8 @@ until results['player'] == ROUNDS || results ['computer'] == ROUNDS
   prompt("You chose: #{choice}; Computer chose: #{computer_choice}")
 
   prompt(return_results(choice, computer_choice))
-  case return_results(choice, computer_choice)
-  when "You won!" then results['player'] += 1
-  when "Computer won!" then results['computer'] += 1
-  end
+  results['player'] += 1 if player_won?(choice, computer_choice)
+  results['computer'] += 1 if computer_won?(computer_choice, choice)
   puts "-------------------------"
   prompt("Current score (round number #{round_number}) --->")
   puts "Player: #{results['player']}"
