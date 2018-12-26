@@ -18,7 +18,7 @@ def win?(first, second)
   WINNING_CHOICES[first].include?(second)
 end
 
-def display_results(user_choice, computer_choice)
+def return_results(user_choice, computer_choice)
   if win?(user_choice, computer_choice)
     "You won!"
   elsif win?(computer_choice, user_choice)
@@ -56,8 +56,8 @@ until results['player'] == 5 || results ['computer'] == 5
   computer_choice = VALID_CHOICES.sample
   prompt("You chose: #{choice}; Computer chose: #{computer_choice}")
 
-  prompt(display_results(choice, computer_choice))
-  case display_results(choice, computer_choice)
+  prompt(return_results(choice, computer_choice))
+  case return_results(choice, computer_choice)
   when "You won!" then results['player'] += 1
   when "Computer won!" then results['computer'] += 1
   end
