@@ -17,7 +17,7 @@ def oddities4(array)
   end
   final_array
 end
-  
+
 def oddities2(array)
   array.select {|item| array.index(item).even? }
 end
