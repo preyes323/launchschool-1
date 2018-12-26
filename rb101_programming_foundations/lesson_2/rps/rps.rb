@@ -9,6 +9,7 @@ WINNING_CHOICES = { 'rock' => ['scissors', 'lizard'],
                     'scissors' => ['paper', 'lizard'],
                     'lizard' => ['spock', 'paper'],
                     'spock' => ['scissors', 'rock'] }
+ROUNDS = 5
 
 def prompt(message)
   puts "=> #{message}"
@@ -34,9 +35,9 @@ round_number = 1
 
 prompt("Welcome to the game!")
 prompt("Today we're playing rock, paper, scissors, lizard, spock.")
-prompt("You need 5 wins of individual games to be the overall winner.")
+prompt("You need #{ROUNDS} wins of individual games to be the overall winner.")
 
-until results['player'] == 5 || results ['computer'] == 5
+until results['player'] == ROUNDS || results ['computer'] == ROUNDS
   choice = nil
   loop do
     prompt("Choose one: #{VALID_CHOICES.join(', ')}")
