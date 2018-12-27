@@ -3,7 +3,7 @@
 # For this exercise, case matters as does punctuation and spaces.
 
 def real_palindrome?(input)
-  string_minus_numbers = input.gsub(/\W/, '')
+  string_minus_numbers = input.downcase.gsub(/[^0-9a-z]/, '')
   string_minus_numbers.casecmp?(string_minus_numbers.reverse)
 end
 
