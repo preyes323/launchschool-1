@@ -21,6 +21,15 @@ def leap_year?(year)
   end
 end
 
+def leap_year_fe?(year)
+  verdict = false
+  verdict = true if year % 4 == 0
+  verdict = false if year % 100 == 0
+  verdict = true if year % 400 == 0
+  verdict
+end
+   
+
 puts leap_year?(2016) == true
 puts leap_year?(2015) == false
 puts leap_year?(2100) == false
@@ -34,3 +43,20 @@ puts leap_year?(1700) == false
 puts leap_year?(1) == false
 puts leap_year?(100) == false
 puts leap_year?(400) == true
+
+puts "----------------"
+puts "FURTHER EXPLORATION"
+puts "----------------"
+puts leap_year_fe?(2016) == true
+puts leap_year_fe?(2015) == false
+puts leap_year_fe?(2100) == false
+puts leap_year_fe?(2400) == true
+puts leap_year_fe?(240000) == true
+puts leap_year_fe?(240001) == false
+puts leap_year_fe?(2000) == true
+puts leap_year_fe?(1900) == false
+puts leap_year_fe?(1752) == true
+puts leap_year_fe?(1700) == false
+puts leap_year_fe?(1) == false
+puts leap_year_fe?(100) == false
+puts leap_year_fe?(400) == true
