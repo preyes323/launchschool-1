@@ -27,7 +27,7 @@ def leap_year_fe?(year)
   verdict = false if year % 100 == 0
   verdict = true if year % 400 == 0
   verdict
-end 
+end
 
 puts leap_year?(2016) == true
 puts leap_year?(2015) == false
