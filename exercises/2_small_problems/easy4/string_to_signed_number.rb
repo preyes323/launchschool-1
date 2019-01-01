@@ -20,7 +20,11 @@ end
 
 def string_to_signed_integer(string)
   if string[0] == '-'
+    string = string[1..string.size]
     0 - string_to_integer(string)
+  elsif string[0] == '+'
+    string = string[1..string.size]
+    string_to_integer(string)
   else
     string_to_integer(string)
   end
