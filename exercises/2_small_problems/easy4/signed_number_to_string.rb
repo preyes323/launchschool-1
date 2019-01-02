@@ -19,10 +19,11 @@ def integer_to_string(integer)
 end
 
 def signed_integer_to_string(int)
+  string = integer_to_string(int)
   case
-  when int == 0 then integer_to_string(int)
-  when int > 0 then integer_to_string(int).prepend("+")
-  when int < 0 then integer_to_string(int).prepend("-")
+  when int == 0 then string
+  when int > 0 then string.prepend("+")
+  when int < 0 then string.prepend("-")
   end
 end
 
