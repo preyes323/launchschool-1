@@ -1,7 +1,6 @@
 def ascii_value(string)
-  chars = string.chars
   total = 0
-  chars.each { |char| total += char.ord }
+  string.each_char { |char| total += char.ord }
   total
 end
 
