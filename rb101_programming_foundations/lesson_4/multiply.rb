@@ -6,7 +6,6 @@ def multiply(numbers_array, multiplier)
     break if counter == numbers_array.size
 
     multiplied_numbers << numbers_array[counter] * multiplier
-    
     counter += 1
   end
   multiplied_numbers
