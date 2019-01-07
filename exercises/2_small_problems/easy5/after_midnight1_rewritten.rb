@@ -1,10 +1,10 @@
-MINUTES_IN_HOUR = 60
-HOURS_IN_DAY = 24
-MINUTES_IN_DAY = HOURS_IN_DAY * MINUTES_IN_HOUR
+MINUTES_PER_HOUR = 60
+HOURS_PER_DAY = 24
+MINUTES_PER_DAY = MINUTES_PER_HOUR * HOURS_PER_DAY
 
-def time_of_day(input)
-  input = input % MINUTES_IN_DAY
-  hours, minutes = input.divmod(MINUTES_IN_HOUR)
+def time_of_day(delta_minutes)
+  delta_minutes = delta_minutes % MINUTES_PER_DAY
+  hours, minutes = delta_minutes.divmod(MINUTES_PER_HOUR)
   format('%02d:%02d', hours, minutes)
 end
 
