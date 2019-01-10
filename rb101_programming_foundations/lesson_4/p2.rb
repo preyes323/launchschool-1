@@ -6,3 +6,13 @@ ages = { "Herman" => 32, "Lily" => 30, "Grandpa" => 5843, "Eddie" => 10, "Marily
 
 total_ages = ages.values.sum
 puts total_ages
+
+# version 2
+
+total = 0
+
+ages.each do |_, value|
+  total += value
+end
+
+puts total
