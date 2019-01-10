@@ -10,3 +10,12 @@ flintstones.each do |name|
 end
 
 puts index
+
+# version 2
+
+index2 = nil
+for name in flintstones
+  index2 = flintstones.index(name) if name[0..1] == "Be"
+end
+
+puts index2
