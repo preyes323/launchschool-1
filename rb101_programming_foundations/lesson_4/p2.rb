@@ -11,8 +11,6 @@ puts total_ages
 
 total = 0
 
-ages.each do |_, value|
-  total += value
-end
+ages.each { |_, value| total += value }
 
 puts total
