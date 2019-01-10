@@ -23,3 +23,11 @@ p hash2
 
 # version 3
 
+array = []
+flintstones.each_with_index do |name, index|
+  array << [name, index]
+end
+
+hash3 = array.to_h
+
+p hash3
