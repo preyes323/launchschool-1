@@ -24,5 +24,3 @@ end
 
 p munsters
 
-# solution 2
-
