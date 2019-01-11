@@ -16,3 +16,14 @@ characters.each do |character|
 end
 
 p frequency_hash
+
+# solution 2
+
+freq_hash = Hash.new(0)
+chars_array = statement.split('').select { |char| /[A-z]/ }
+
+chars_array.each do |char|
+  freq_hash[char] += 1
+end
+
+p freq_hash
