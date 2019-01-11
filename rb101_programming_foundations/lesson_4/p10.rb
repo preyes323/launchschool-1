@@ -10,8 +10,9 @@ munsters = {
 # has an additional "age_group" key that has one of three values
 # describing the age group the family member is in (kid, adult, or senior).
 
-names = munsters.keys
-names.each do |name|
+# solution 1
+
+munsters.keys.each do |name|
   if munsters[name]['age'] <= 17
     munsters[name]['age_group'] = 'kid'
   elsif munsters[name]['age'] <= 64
@@ -22,3 +23,6 @@ names.each do |name|
 end
 
 p munsters
+
+# solution 2
+
