@@ -15,12 +15,3 @@ puts crunch('ggggggggggggggg') == 'g'
 puts crunch('a') == 'a'
 puts crunch('') == ''
 
-def regexcrunch(string)
-  
-end
-
-puts regexcrunch('ddaaiillyy ddoouubbllee') == 'daily double'
-puts regexcrunch('4444abcabccba') == '4abcabcba'
-puts regexcrunch('ggggggggggggggg') == 'g'
-puts regexcrunch('a') == 'a'
-puts regexcrunch('') == ''
