@@ -6,7 +6,7 @@ def find_fibonacci_index_by_length(digits)
     subsequent = fib1 + fib2
     fib1, fib2 = fib2, subsequent
     index += 1
-    break if subsequent.to_s.size == digits
+    break if subsequent.to_s.size >= digits
   end
   index
 end
