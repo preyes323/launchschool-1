@@ -1,8 +1,6 @@
 def reverse(array)
   new_array = []
-  array.each do |item|
-    new_array.unshift(item)
-  end
+  array.each { |item| new_array.unshift(item) }
   new_array
 end
 
