@@ -1,8 +1,8 @@
 arr = ['10', '11', '9', '7', '8']
 p arr
 
-arr = arr.map { |item| item.to_i }.sort { |a, b| b <=> a }.map do |item|
-  item.to_s
+arr = arr.sort do |a, b|
+  b.to_i <=> a.to_i
 end
 
 p arr
