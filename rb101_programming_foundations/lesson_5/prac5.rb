@@ -6,8 +6,10 @@ munsters = {
   "Marilyn" => { "age" => 23, "gender" => "female"}
 }
 
-a = munsters.select do |_, value|
-  value["gender"] == "male"
+age = []
+munsters.each do |key, value|
+  age << value['age'] if value['gender'] == "male"
 end
+puts age.sum
 
-p a
+
