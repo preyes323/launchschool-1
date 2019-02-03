@@ -89,16 +89,16 @@ loop do
   
   loop do
     display_board(board)
-   
+ 
     player_places_piece!(board)
     break if someone_won?(board) || board_full?(board)
-  
+
     computer_places_piece!(board)
     break if someone_won?(board) || board_full?(board)
   end
-  
+
   display_board(board)
-  
+
   if someone_won?(board)
     prompt "#{detect_winner(board)} won!"
   else
