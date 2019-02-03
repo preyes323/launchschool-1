@@ -7,7 +7,7 @@ def letter_case_count(string)
       count[:lowercase] += 1
     else
       count[:neither] += 1
-    end 
+    end
   end
   count
 end
