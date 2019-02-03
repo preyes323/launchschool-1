@@ -1,9 +1,9 @@
 def letter_case_count(string)
   count = { lowercase: 0, uppercase: 0, neither: 0 }
   string.chars.each do |char|
-    if char.upcase == char && char.match(/[A-z]/)
+    if char.match(/[A-Z]/)
       count[:uppercase] += 1
-    elsif char.downcase == char && char.match(/[A-z]/)
+    elsif char.match(/[a-z]/)
       count[:lowercase] += 1
     else
       count[:neither] += 1
