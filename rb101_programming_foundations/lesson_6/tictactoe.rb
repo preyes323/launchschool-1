@@ -89,7 +89,7 @@ loop do
   
   loop do
     display_board(board)
- 
+
     player_places_piece!(board)
     break if someone_won?(board) || board_full?(board)
 
