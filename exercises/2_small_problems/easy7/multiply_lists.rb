@@ -8,4 +8,12 @@ end
 
 puts multiply_list([3, 5, 7], [9, 10, 11]) == [27, 50, 77]
 
+# further exploration
 
+def multiply_list_with_zip(array1, array2)
+  total = []
+  array1.zip(array2) {|x, y| total << x * y}
+  total
+end
+
+puts multiply_list_with_zip([3, 5, 7], [9, 10, 11]) == [27, 50, 77]
