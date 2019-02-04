@@ -17,3 +17,11 @@ def multiply_list_with_zip(array1, array2)
 end
 
 puts multiply_list_with_zip([3, 5, 7], [9, 10, 11]) == [27, 50, 77]
+
+# refactored version
+
+def multiply_list_tersely(array1, array2)
+  array1.zip(array2).map { |x,y| x * y }
+end
+
+puts multiply_list_tersely([3, 5, 7], [9, 10, 11]) == [27, 50, 77]
