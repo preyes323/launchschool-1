@@ -1,5 +1,11 @@
 def sum_of_sums(array)
-  
+  counter = 1
+  total = 0
+  while counter != array.size+1
+    total += array[0, counter].sum
+    counter += 1
+  end
+  total
 end
 
 puts sum_of_sums([3, 5, 2]) == (3) + (3 + 5) + (3 + 5 + 2) # -> (21)
