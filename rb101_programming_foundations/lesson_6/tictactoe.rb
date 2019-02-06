@@ -17,9 +17,10 @@ def prompt(msg)
 end
 
 # rubocop:disable Metrics/AbcSize
-def display_board(brd)
+def display_board(brd, score)
   system("cls") || system("clear")
   puts "You're an #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}."
+  puts "Current score: Player = #{score[:player]}. Computer = #{score[:computer]}."
   puts ""
   puts "     |     |"
   puts "  #{brd[1]}  |  #{brd[2]}  |  #{brd[3]}"
@@ -92,20 +93,32 @@ def someone_won?(brd)
   !!detect_winner(brd)
 end
 
+def update_score(brd, score)
+  if detect_winner(brd) == "Player"
+    score[:player] += 1
+  elsif detect_winner(brd) == "Computer"
+    score[:computer] += 1
+  end
+end
+
+current_score = {player: 0, computer: 0}
+
 loop do
   board = initialize_board
 
   loop do
-    display_board(board)
+    display_board(board, current_score)
 
     player_places_piece!(board)
+    update_score(board, current_score)
     break if someone_won?(board) || board_full?(board)
 
     computer_places_piece!(board)
+    update_score(board, current_score)
     break if someone_won?(board) || board_full?(board)
   end
 
-  display_board(board)
+  display_board(board, current_score)
 
   if someone_won?(board)
     prompt "#{detect_winner(board)} won!"
