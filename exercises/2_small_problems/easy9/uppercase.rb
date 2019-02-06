@@ -1,5 +1,5 @@
 def uppercase?(string)
-  string.chars.all? {|char| char == char.upcase }
+  string == string.upcase
 end
 
 puts uppercase?('t') == false
