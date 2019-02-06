@@ -46,6 +46,12 @@ def empty_squares(brd)
   brd.keys.select { |num| brd[num] == INITIAL_MARKER }
 end
 
+def joinor(array)
+  
+end
+
+
+
 def player_places_piece!(brd)
   square = ''
   loop do
