@@ -46,11 +46,16 @@ def empty_squares(brd)
   brd.keys.select { |num| brd[num] == INITIAL_MARKER }
 end
 
-def joinor(array)
-  
+def joinor(array, divider=",", word="or")
+  string = ""
+  initial_numbers = array.slice(0..-2)
+  last_number = array.last
+  initial_numbers.each do |num|
+    string << "#{num}#{divider} "
+  end
+  string << "#{word} #{last_number}"
+  string
 end
-
-
 
 def player_places_piece!(brd)
   square = ''
