@@ -107,10 +107,12 @@ def offensive_opportunity_locator(brd)
 end
 
 def computer_places_piece!(brd)
-  if immediate_threat_location(brd) != nil
-    brd[immediate_threat_location(brd)] = COMPUTER_MARKER
-  elsif offensive_opportunity_locator(brd) != nil
+  if offensive_opportunity_locator(brd) != nil
     brd[offensive_opportunity_locator(brd)] = COMPUTER_MARKER
+  elsif immediate_threat_location(brd) != nil
+    brd[immediate_threat_location(brd)] = COMPUTER_MARKER
+  elsif brd[5] == INITIAL_MARKER
+    brd[5] = COMPUTER_MARKER
   else    
     square = empty_squares(brd).sample
     brd[square] = COMPUTER_MARKER
@@ -144,15 +146,15 @@ def update_score(brd, score)
   end
 end
 
-def tournament_won?(score)
+def tournament_not_won?(score)
   score[:player] != 5 && score[:computer] != 5
 end
 
 def tournament_winner?(score)
   if score[:player] == 5
-    "Player"
-  elsif score[:player] == 5
-    "Computer"
+    return "Player"
+  elsif score[:computer] == 5
+    return "Computer"
   end
 end
 
@@ -164,7 +166,7 @@ end
 current_score = { player: 0, computer: 0 }
 
 loop do
-  while tournament_won?(current_score)
+  while tournament_not_won?(current_score)
     board = initialize_board
 
     loop do
@@ -180,13 +182,22 @@ loop do
     end
 
     display_board(board, current_score)
-
+    
     if someone_won?(board)
       prompt "#{detect_winner(board)} won!"
     else
       prompt "It's a tie!"
     end
-    prompt "#{tournament_winner?(current_score)} won the tournament!"
+    if tournament_not_won?(current_score)
+      prompt "Starting new game in 3..."
+      Kernel.sleep(1)
+      prompt "Starting new game in 2..."
+      Kernel.sleep(1)
+      prompt "Starting new game in 1..."
+      Kernel.sleep(1)
+    else
+      prompt "#{tournament_winner?(current_score)} won the tournament!"
+    end
   end
 
   prompt "Play again? (y or n)"
