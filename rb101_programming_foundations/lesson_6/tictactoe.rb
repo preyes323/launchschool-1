@@ -12,7 +12,7 @@ WINNING_LINES = [
   [3, 5, 7]
 ]
 
-DEFENSIVE_MOVES = [
+ALMOST_MOVES = [
   [1, 2, 3],
   [2, 3, 1],
   [4, 5, 6],
@@ -89,8 +89,17 @@ def player_places_piece!(brd)
 end
 
 def immediate_threat_location(brd)
-  DEFENSIVE_MOVES.each do |line|
+  ALMOST_MOVES.each do |line|
     if brd.values_at(*line) == ["X", "X", " "]
+      return line[2]
+    end
+  end
+  nil
+end
+
+def offensive_opportunity_locator(brd)
+  ALMOST_MOVES.each do |line|
+    if brd.values_at(*line) == ["O", "O", " "]
       return line[2]
     end
   end
@@ -100,7 +109,9 @@ end
 def computer_places_piece!(brd)
   if immediate_threat_location(brd) != nil
     brd[immediate_threat_location(brd)] = COMPUTER_MARKER
-  else
+  elsif offensive_opportunity_locator(brd) != nil
+    brd[offensive_opportunity_locator(brd)] = COMPUTER_MARKER
+  else    
     square = empty_squares(brd).sample
     brd[square] = COMPUTER_MARKER
   end
