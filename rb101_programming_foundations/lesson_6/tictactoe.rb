@@ -35,7 +35,7 @@ def prompt(msg)
   puts "=> #{msg}"
 end
 
-# rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/AbcSize, Metrics/MethodLength
 def display_board(brd, score)
   system("cls") || system("clear")
   puts "You're an #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}."
@@ -54,7 +54,7 @@ def display_board(brd, score)
   puts "     |     |"
   puts ""
 end
-# rubocop:enable Metrics/AbcSize
+# rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
 def initialize_board
   new_board = {}
@@ -86,7 +86,10 @@ def place_piece!(brd, current_player)
 end
 
 def alternate_player(current_player)
-  current_player == "c" ? current_player = "p" : current_player = "c"
+  case current_player
+  when "c" then "p"
+  when "p" then "c"
+  end
 end
 
 def player_places_piece!(brd)
@@ -119,13 +122,13 @@ def offensive_opportunity_locator(brd)
 end
 
 def computer_places_piece!(brd)
-  if offensive_opportunity_locator(brd) != nil
+  if !offensive_opportunity_locator(brd).nil?
     brd[offensive_opportunity_locator(brd)] = COMPUTER_MARKER
-  elsif immediate_threat_location(brd) != nil
+  elsif !immediate_threat_location(brd).nil?
     brd[immediate_threat_location(brd)] = COMPUTER_MARKER
   elsif brd[5] == INITIAL_MARKER
     brd[5] = COMPUTER_MARKER
-  else    
+  else
     square = empty_squares(brd).sample
     brd[square] = COMPUTER_MARKER
   end
@@ -164,9 +167,9 @@ end
 
 def tournament_winner?(score)
   if score[:player] == 5
-    return "Player"
+    "Player"
   elsif score[:computer] == 5
-    return "Computer"
+    "Computer"
   end
 end
 
@@ -181,8 +184,7 @@ loop do
   prompt "Which user to start? (player(p) or computer(c) or random(r))?"
   current_player = gets.chomp
   current_player = ["p", "c"].sample if current_player.downcase.start_with?("r")
-  break if current_player.downcase.start_with?("p") ||
-           current_player.downcase.start_with?("c")
+  break if current_player.downcase.start_with?("p", "c")
 end
 
 loop do
@@ -198,7 +200,6 @@ loop do
     end
 
     display_board(board, current_score)
-    
     if someone_won?(board)
       prompt "#{detect_winner(board)} won!"
     else
