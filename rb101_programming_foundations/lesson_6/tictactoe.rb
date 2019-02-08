@@ -77,6 +77,18 @@ def joinor(array, divider=",", word="or")
   string
 end
 
+def place_piece!(brd, current_player)
+  if current_player == "p"
+    player_places_piece!(brd)
+  else
+    computer_places_piece!(brd)
+  end
+end
+
+def alternate_player(current_player)
+  current_player == "c" ? current_player = "p" : current_player = "c"
+end
+
 def player_places_piece!(brd)
   square = ''
   loop do
@@ -164,6 +176,14 @@ def reset_score(score)
 end
 
 current_score = { player: 0, computer: 0 }
+current_player = ""
+loop do
+  prompt "Which user to start? (player(p) or computer(c) or random(r))?"
+  current_player = gets.chomp
+  current_player = ["p", "c"].sample if current_player.downcase.start_with?("r")
+  break if current_player.downcase.start_with?("p") ||
+           current_player.downcase.start_with?("c")
+end
 
 loop do
   while tournament_not_won?(current_score)
@@ -171,12 +191,8 @@ loop do
 
     loop do
       display_board(board, current_score)
-
-      player_places_piece!(board)
-      update_score(board, current_score)
-      break if someone_won?(board) || board_full?(board)
-
-      computer_places_piece!(board)
+      place_piece!(board, current_player)
+      current_player = alternate_player(current_player)
       update_score(board, current_score)
       break if someone_won?(board) || board_full?(board)
     end
