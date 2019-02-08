@@ -20,7 +20,7 @@ end
 def display_board(brd, score)
   system("cls") || system("clear")
   puts "You're an #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}."
-  puts "Current score: Player = #{score[:player]}. Computer = #{score[:computer]}."
+  puts "Score: Player = #{score[:player]}. Computer = #{score[:computer]}."
   puts ""
   puts "     |     |"
   puts "  #{brd[1]}  |  #{brd[2]}  |  #{brd[3]}"
@@ -118,26 +118,26 @@ def reset_score(score)
   score[:computer] = 0
 end
 
-current_score = {player: 0, computer: 0}
+current_score = { player: 0, computer: 0 }
 
 loop do
-  while tournament_won?(current_score) do
+  while tournament_won?(current_score)
     board = initialize_board
-  
+
     loop do
       display_board(board, current_score)
-  
+
       player_places_piece!(board)
       update_score(board, current_score)
       break if someone_won?(board) || board_full?(board)
-  
+
       computer_places_piece!(board)
       update_score(board, current_score)
       break if someone_won?(board) || board_full?(board)
     end
-  
+
     display_board(board, current_score)
-  
+
     if someone_won?(board)
       prompt "#{detect_winner(board)} won!"
     else
