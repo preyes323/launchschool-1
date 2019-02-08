@@ -101,34 +101,55 @@ def update_score(brd, score)
   end
 end
 
+def tournament_won?(score)
+  score[:player] != 5 && score[:computer] != 5
+end
+
+def tournament_winner?(score)
+  if score[:player] == 5
+    "Player"
+  elsif score[:player] == 5
+    "Computer"
+  end
+end
+
+def reset_score(score)
+  score[:player] = 0
+  score[:computer] = 0
+end
+
 current_score = {player: 0, computer: 0}
 
 loop do
-  board = initialize_board
-
-  loop do
+  while tournament_won?(current_score) do
+    board = initialize_board
+  
+    loop do
+      display_board(board, current_score)
+  
+      player_places_piece!(board)
+      update_score(board, current_score)
+      break if someone_won?(board) || board_full?(board)
+  
+      computer_places_piece!(board)
+      update_score(board, current_score)
+      break if someone_won?(board) || board_full?(board)
+    end
+  
     display_board(board, current_score)
-
-    player_places_piece!(board)
-    update_score(board, current_score)
-    break if someone_won?(board) || board_full?(board)
-
-    computer_places_piece!(board)
-    update_score(board, current_score)
-    break if someone_won?(board) || board_full?(board)
-  end
-
-  display_board(board, current_score)
-
-  if someone_won?(board)
-    prompt "#{detect_winner(board)} won!"
-  else
-    prompt "It's a tie!"
+  
+    if someone_won?(board)
+      prompt "#{detect_winner(board)} won!"
+    else
+      prompt "It's a tie!"
+    end
+    prompt "#{tournament_winner?(current_score)} won the tournament!"
   end
 
   prompt "Play again? (y or n)"
   answer = gets.chomp
   break unless answer.downcase.start_with?("y")
+  reset_score(current_score)
 end
 
 prompt "Thanks for playing Tic Tac Toe! Good bye!"
