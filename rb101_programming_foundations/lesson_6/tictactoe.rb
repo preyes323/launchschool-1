@@ -12,6 +12,25 @@ WINNING_LINES = [
   [3, 5, 7]
 ]
 
+DEFENSIVE_MOVES = [
+  [1, 2, 3],
+  [2, 3, 1],
+  [4, 5, 6],
+  [5, 6, 4],
+  [7, 8, 9],
+  [8, 9, 7],
+  [1, 4, 7],
+  [2, 5, 8],
+  [3, 6, 9],
+  [4, 7, 1],
+  [5, 8, 2],
+  [6, 9, 3],
+  [7, 5, 3],
+  [3, 5, 7],
+  [1, 5, 9],
+  [5, 9, 1]
+]
+
 def prompt(msg)
   puts "=> #{msg}"
 end
@@ -69,9 +88,22 @@ def player_places_piece!(brd)
   brd[square] = PLAYER_MARKER
 end
 
+def immediate_threat_location(brd)
+  DEFENSIVE_MOVES.each do |line|
+    if brd.values_at(*line) == ["X", "X", " "]
+      return line[2]
+    end
+  end
+  nil
+end
+
 def computer_places_piece!(brd)
-  square = empty_squares(brd).sample
-  brd[square] = COMPUTER_MARKER
+  if immediate_threat_location(brd) != nil
+    brd[immediate_threat_location(brd)] = COMPUTER_MARKER
+  else
+    square = empty_squares(brd).sample
+    brd[square] = COMPUTER_MARKER
+  end
 end
 
 def board_full?(brd)
