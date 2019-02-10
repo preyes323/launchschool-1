@@ -96,11 +96,12 @@ def player_places_piece!(brd)
   square = ''
   loop do
     prompt "Choose a square (#{joinor(empty_squares(brd))}):"
-    square = gets.chomp.to_i
-    break if empty_squares(brd).include?(square)
+    square = gets.chomp
+    next if square.to_f != square.to_i
+    break if empty_squares(brd).include?(square.to_i)
     prompt "Sorry that's not a valid choice"
   end
-  brd[square] = PLAYER_MARKER
+  brd[square.to_i] = PLAYER_MARKER
 end
 
 def immediate_threat_location(brd)
