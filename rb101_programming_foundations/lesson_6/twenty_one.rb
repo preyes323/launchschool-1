@@ -2,20 +2,21 @@ require 'pry'
 
 CARDS = %w(A 2 3 4 5 6 7 8 9 10 J Q K)
 SUITS = %w(H C D S)
-CARDS_NAMES = { "A" => "Ace",
-                "2" => "2",
-                "3" => "3",
-                "4" => "4",
-                "5" => "5",
-                "6" => "6",
-                "7" => "7",
-                "8" => "8",
-                "9" => "9",
-                "10" => "10",
-                "J" => "Jack",
-                "Q" => "Queen",
-                "K" => "King"
-              }
+CARDS_NAMES = {
+  "A" => "Ace",
+  "2" => "2",
+  "3" => "3",
+  "4" => "4",
+  "5" => "5",
+  "6" => "6",
+  "7" => "7",
+  "8" => "8",
+  "9" => "9",
+  "10" => "10",
+  "J" => "Jack",
+  "Q" => "Queen",
+  "K" => "King"
+}
 
 def prompt(string)
   puts "=> #{string}"
@@ -50,14 +51,15 @@ def list_cards(array)
   joinor(cards)
 end
 
-def joinor(array, divider=",", word="and")
-  string = ""
-  initial_numbers = array.slice(0..-2)
-  last_number = array.last
-  initial_numbers.each do |num|
-    string << "#{num}#{divider} "
+def joinor(arr, delimiter=', ', word='and')
+  case arr.size
+  when 0 then ''
+  when 1 then arr.first
+  when 2 then arr.join(" #{word} ")
+  else
+    arr[-1] = "#{word} #{arr.last}"
+    arr.join(delimiter)
   end
-  string << "#{word} #{last_number}"
 end
 
 # gameplay starts here
@@ -73,7 +75,7 @@ loop do
   prompt "Dealer: #{list_cards(dealer_cards)}"
 
   prompt "Do you want to play again? (y or n)"
- answer = gets.chomp
+  answer = gets.chomp
   break if answer == "n"
 end
 
