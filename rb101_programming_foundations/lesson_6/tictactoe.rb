@@ -217,9 +217,13 @@ loop do
     end
   end
 
-  prompt "Play again? (y or n)"
-  answer = gets.chomp
-  break unless answer.downcase.start_with?("y")
+  answer = ""
+  loop do
+    prompt "Play again? (y or n)"
+    answer = gets.chomp
+    break if ["y", "n"].include?(answer.downcase)
+  end
+  break unless answer.downcase == "y"
   reset_score(current_score)
 end
 
