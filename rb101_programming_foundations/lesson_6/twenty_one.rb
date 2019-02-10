@@ -124,7 +124,7 @@ loop do
     prompt "hit or stay?"
     answer = gets.chomp
     deal_cards(game_deck, player_cards, 1) if answer == "hit"
-    break if answer == 'stay' || busted?(player_cards)
+    break if answer == 'stay' || busted?(player_cards) || detect_winner(player_cards)
   end
 
   if busted?(player_cards)
@@ -132,26 +132,42 @@ loop do
     prompt "Do you want to play again? (y or n)"
     end_answer = gets.chomp
     break if end_answer == "n"
-  else
-    prompt "You chose to stay!"
-  end
-
-  loop do
-    prompt "Player: #{show_cards(player_cards, "player")}"
-    puts "Player total: #{total(player_cards)}"
-    prompt "Dealer: #{show_cards(dealer_cards, "dealer")}"
-    puts "Dealer total: #{total(dealer_cards)}"
-    deal_cards(game_deck, dealer_cards, 1) if total(dealer_cards) <= 17
-    break if busted?(dealer_cards)
-  end
-
-  if busted?(dealer_cards)
-    prompt "Dealer busted out! Player wins!"
+  elsif detect_winner(player_cards)
+    prompt "Player won with 21 exactly!"
     prompt "Do you want to play again? (y or n)"
     end_answer = gets.chomp
     break if end_answer == "n"
   else
-    prompt "Dealer chose to stay!"
+    prompt "You chose to stay!"
+  end
+
+  if busted?(player_cards) == false && detect_winner(player_cards) == false
+    loop do
+      prompt "Player: #{show_cards(player_cards, "player")}"
+      puts "Player total: #{total(player_cards)}"
+      prompt "Dealer: #{show_cards(dealer_cards, "dealer")}"
+      puts "Dealer total: #{total(dealer_cards)}"
+      deal_cards(game_deck, dealer_cards, 1) if total(dealer_cards) <= 17
+      break if busted?(dealer_cards) || detect_winner(dealer_cards)
+    end
+
+    if busted?(dealer_cards)
+      prompt "Dealer busted out! Player wins!"
+      prompt "Do you want to play again? (y or n)"
+      end_answer = gets.chomp
+      break if end_answer == "n"
+    elsif detect_winner(dealer_cards)
+      prompt "Player won with 21 exactly!"
+      prompt "Do you want to play again? (y or n)"
+      end_answer = gets.chomp
+      break if end_answer == "n"
+    else
+      total(player_cards) > total(dealer_cards) ?
+        prompt("Player won!") : prompt("Dealer won!")
+      prompt "Do you want to play again? (y or n)"
+      end_answer = gets.chomp
+      break if end_answer == "n"
+    end
   end
 end
 
