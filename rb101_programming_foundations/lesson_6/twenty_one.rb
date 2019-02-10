@@ -43,10 +43,18 @@ def initial_deal(deck, player_deck, dealer_deck)
   deal_cards(deck, dealer_deck, 2)
 end
 
-def list_cards(array)
+def show_cards(array, player)
   cards = []
-  array.each do |sub_array|
-    cards << CARDS_NAMES[sub_array.first]
+  if player == "player"
+    array.each do |sub_array|
+      cards << CARDS_NAMES[sub_array.first]
+    end
+  elsif player == "dealer"
+    cards << CARDS_NAMES[array[0][0]]
+    remaining_card_count = array.size - 1
+    remaining_card_count.times do
+      cards << "unknown card"
+    end
   end
   joinor(cards)
 end
@@ -71,8 +79,8 @@ loop do
   initial_deal(game_deck, player_cards, dealer_cards)
 
   system('cls') || system('clear')
-  prompt "Player: #{list_cards(player_cards)}"
-  prompt "Dealer: #{list_cards(dealer_cards)}"
+  prompt "Player: #{show_cards(player_cards, "player")}"
+  prompt "Dealer: #{show_cards(dealer_cards, "dealer")}"
 
   prompt "Do you want to play again? (y or n)"
   answer = gets.chomp
