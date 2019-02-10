@@ -57,9 +57,9 @@ end
 # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
 def initialize_board
-  new_board = {}
-  (1..9).each { |num| new_board[num] = INITIAL_MARKER }
-  new_board
+  (1..9).each_with_object({}) do |num, new_board|
+    new_board[num] = INITIAL_MARKER
+  end
 end
 
 def empty_squares(brd)
@@ -74,7 +74,6 @@ def joinor(array, divider=",", word="or")
     string << "#{num}#{divider} "
   end
   string << "#{word} #{last_number}"
-  string
 end
 
 def place_piece!(brd, current_player)
