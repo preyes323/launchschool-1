@@ -183,8 +183,8 @@ current_player = ""
 loop do
   prompt "Which user to start? (player(p) or computer(c) or random(r))?"
   current_player = gets.chomp
-  current_player = ["p", "c"].sample if current_player.downcase.start_with?("r")
-  break if current_player.downcase.start_with?("p", "c")
+  current_player = ["p", "c"].sample if current_player.downcase == "r"
+  break if ["p", "c"].include?(current_player.downcase)
 end
 
 loop do
