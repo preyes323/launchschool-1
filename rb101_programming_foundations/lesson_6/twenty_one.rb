@@ -45,11 +45,11 @@ end
 
 def show_cards(array, player)
   cards = []
-  if player == "p"
+  if player == "player"
     array.each do |sub_array|
       cards << CARDS_NAMES[sub_array.first]
     end
-  elsif player == "d"
+  elsif player == "dealer"
     cards << CARDS_NAMES[array[0][0]]
     remaining_card_count = array.size - 1
     remaining_card_count.times do
@@ -113,22 +113,13 @@ loop do
   player_cards = []
   dealer_cards = []
   game_deck = initialize_deck
-  initial_deal(game_deck, player_cards, dealer_cards)
-  current_player = ""
-  system('cls') || system('clear')
-  loop do
-    prompt "Which user to start? (player(p) or dealer(d) or random(r))?"
-    current_player = gets.chomp
-    current_player = ["p", "d"].sample if current_player.downcase == "r"
-    break if ["p", "d"].include?(current_player.downcase)
-  end
-  
+  initial_deal(game_deck, player_cards, dealer_cards)  
   system('cls') || system('clear')
   answer = nil
   loop do
-    prompt "Player: #{show_cards(player_cards, "p")}"
+    prompt "Player: #{show_cards(player_cards, "player")}"
     puts "Player total: #{total(player_cards)}"
-    prompt "Dealer: #{show_cards(dealer_cards, "d")}"
+    prompt "Dealer: #{show_cards(dealer_cards, "dealer")}"
     puts "Dealer total: #{total(dealer_cards)}"
     prompt "hit or stay?"
     answer = gets.chomp
@@ -146,9 +137,9 @@ loop do
   end
 
   loop do
-    prompt "Player: #{show_cards(player_cards, "p")}"
+    prompt "Player: #{show_cards(player_cards, "player")}"
     puts "Player total: #{total(player_cards)}"
-    prompt "Dealer: #{show_cards(dealer_cards, "d")}"
+    prompt "Dealer: #{show_cards(dealer_cards, "dealer")}"
     puts "Dealer total: #{total(dealer_cards)}"
     deal_cards(game_deck, dealer_cards, 1) if total(dealer_cards) <= 17
     break if busted?(dealer_cards)
