@@ -107,111 +107,131 @@ def alternate_player(current_player)
   end
 end
 
+def wait_between_rounds
+  prompt "Starting new game in 3..."
+  Kernel.sleep(1)
+  prompt "Starting new game in 2..."
+  Kernel.sleep(1)
+  prompt "Starting new game in 1..."
+  Kernel.sleep(1)
+end
+
+def tournament_winner?(score)
+  score[:player] == 5 || score[:dealer] == 5
+end
+
 # rubocop:disable Metrics/LineLength
 
 # gameplay starts here
 
 tournament_score = { player: 0, dealer: 0 }
 
-loop do
-  system('cls') || system('clear')
-  puts "----------------------------"
-  puts "Welcome to Twenty-One!"
-  puts "----------------------------"
-  player_cards = []
-  dealer_cards = []
-  game_deck = initialize_deck
-  initial_deal(game_deck, player_cards, dealer_cards)
-  player_total = total(player_cards)
-  dealer_total = total(dealer_cards)
-  answer = nil
+unless tournament_score[:player] == 5 || tournament_score[:dealer] == 5
   loop do
-    prompt "Player: #{show_cards(player_cards, 'player')}"
-    puts "Player total: #{player_total}"
-    prompt "Dealer: #{show_cards(dealer_cards, 'dealer')}"
-    puts "Dealer total: #{dealer_total}"
-    prompt "hit or stay?"
-    answer = gets.chomp
-    deal_cards(game_deck, player_cards, 1) if answer == "hit"
+    system('cls') || system('clear')
+    puts "----------------------------"
+    puts "Welcome to Twenty-One!"
+    puts "----------------------------"
+    player_cards = []
+    dealer_cards = []
+    game_deck = initialize_deck
+    initial_deal(game_deck, player_cards, dealer_cards)
     player_total = total(player_cards)
-    break if answer == 'stay' || busted?(player_cards) || detect_winner(player_cards)
-  end
-
-  if busted?(player_cards)
-    tournament_score[:dealer] += 1
-    puts "----------------------------"
-    prompt "Player busted out! Dealer wins!"
-    prompt "Final player hand was: #{show_cards(player_cards, 'player')} (#{player_total})"
-    prompt "Final dealer hand was: #{show_cards(dealer_cards)} (#{dealer_total})"
-    puts "----------------------------"
-    prompt "Tournament score: P:#{tournament_score[:player]} D:#{tournament_score[:dealer]}"
-    prompt "Do you want to play again? (y or n)"
-    end_answer = gets.chomp
-    break if end_answer == "n"
-  elsif detect_winner(player_cards)
-    tournament_score[:player] += 1
-    puts "----------------------------"
-    prompt "Player won with 21 exactly!"
-    prompt "Final player hand was: #{show_cards(player_cards, 'player')} (#{player_total})"
-    prompt "Final dealer hand was: #{show_cards(dealer_cards)} (#{dealer_total})"
-    puts "----------------------------"
-    prompt "Tournament score: P:#{tournament_score[:player]} D:#{tournament_score[:dealer]}"
-    prompt "Do you want to play again? (y or n)"
-    end_answer = gets.chomp
-    break if end_answer == "n"
-  else
-    prompt "You chose to stay!"
-  end
-
-  if busted?(player_cards) == false && detect_winner(player_cards) == false
-    while dealer_total <= 17
+    dealer_total = total(dealer_cards)
+    answer = nil
+    loop do
       prompt "Player: #{show_cards(player_cards, 'player')}"
-      puts "Player total: #{total(player_cards)}"
+      puts "Player total: #{player_total}"
       prompt "Dealer: #{show_cards(dealer_cards, 'dealer')}"
       puts "Dealer total: #{dealer_total}"
-      deal_cards(game_deck, dealer_cards, 1) if total(dealer_cards) <= 17
-      dealer_total = total(dealer_cards)
-      break if busted?(dealer_cards) || detect_winner(dealer_cards)
+      prompt "hit or stay?"
+      answer = gets.chomp
+      deal_cards(game_deck, player_cards, 1) if answer == "hit"
+      player_total = total(player_cards)
+      break if answer == 'stay' || busted?(player_cards) || detect_winner(player_cards)
+      prompt "Please enter a valid option..." if answer != "hit"
     end
 
-    if busted?(dealer_cards)
-      tournament_score[:player] += 1
-      puts "----------------------------"
-      prompt "Dealer busted out! Player wins!"
-      prompt "Final player hand was: #{show_cards(player_cards, 'player')} (#{player_total})"
-      prompt "Final dealer hand was: #{show_cards(dealer_cards)} (#{dealer_total})"
-      puts "----------------------------"
-      prompt "Tournament score: P:#{tournament_score[:player]} D:#{tournament_score[:dealer]}"
-      prompt "Do you want to play again? (y or n)"
-      end_answer = gets.chomp
-      break if end_answer == "n"
-    elsif detect_winner(dealer_cards)
+    if busted?(player_cards)
       tournament_score[:dealer] += 1
       puts "----------------------------"
-      prompt "Dealer won with 21 exactly!"
+      prompt "Player busted out! Dealer wins!"
       prompt "Final player hand was: #{show_cards(player_cards, 'player')} (#{player_total})"
       prompt "Final dealer hand was: #{show_cards(dealer_cards)} (#{dealer_total})"
       puts "----------------------------"
       prompt "Tournament score: P:#{tournament_score[:player]} D:#{tournament_score[:dealer]}"
-      prompt "Do you want to play again? (y or n)"
-      end_answer = gets.chomp
-      break if end_answer == "n"
+      wait_between_rounds unless tournament_winner?(tournament_score)
+    elsif detect_winner(player_cards)
+      tournament_score[:player] += 1
+      puts "----------------------------"
+      prompt "Player won with 21 exactly!"
+      prompt "Final player hand was: #{show_cards(player_cards, 'player')} (#{player_total})"
+      prompt "Final dealer hand was: #{show_cards(dealer_cards)} (#{dealer_total})"
+      puts "----------------------------"
+      prompt "Tournament score: P:#{tournament_score[:player]} D:#{tournament_score[:dealer]}"
+      wait_between_rounds unless tournament_winner?(tournament_score)
     else
-      puts "----------------------------"
-      if total(player_cards) > total(dealer_cards)
-        tournament_score[:player] += 1
-        prompt("Player won!")
-      else
-        tournament_score[:dealer] += 1
-        prompt("Dealer won!")
+      prompt "You chose to stay!"
+    end
+
+    if busted?(player_cards) == false && detect_winner(player_cards) == false
+      while dealer_total <= 17
+        prompt "Player: #{show_cards(player_cards, 'player')}"
+        puts "Player total: #{total(player_cards)}"
+        prompt "Dealer: #{show_cards(dealer_cards, 'dealer')}"
+        puts "Dealer total: #{dealer_total}"
+        deal_cards(game_deck, dealer_cards, 1) if total(dealer_cards) <= 17
+        dealer_total = total(dealer_cards)
+        break if busted?(dealer_cards) || detect_winner(dealer_cards)
       end
-      prompt "Final player hand was: #{show_cards(player_cards, 'player')} (#{player_total})"
-      prompt "Final dealer hand was: #{show_cards(dealer_cards)} (#{dealer_total})"
-      puts "----------------------------"
-      prompt "Tournament score: P:#{tournament_score[:player]} D:#{tournament_score[:dealer]}"
-      prompt "Do you want to play again? (y or n)"
-      end_answer = gets.chomp
-      break if end_answer == "n"
+
+      if busted?(dealer_cards)
+        tournament_score[:player] += 1
+        puts "----------------------------"
+        prompt "Dealer busted out! Player wins!"
+        prompt "Final player hand was: #{show_cards(player_cards, 'player')} (#{player_total})"
+        prompt "Final dealer hand was: #{show_cards(dealer_cards)} (#{dealer_total})"
+        puts "----------------------------"
+        prompt "Tournament score: P:#{tournament_score[:player]} D:#{tournament_score[:dealer]}"
+        wait_between_rounds unless tournament_winner?(tournament_score)
+      elsif detect_winner(dealer_cards)
+        tournament_score[:dealer] += 1
+        puts "----------------------------"
+        prompt "Dealer won with 21 exactly!"
+        prompt "Final player hand was: #{show_cards(player_cards, 'player')} (#{player_total})"
+        prompt "Final dealer hand was: #{show_cards(dealer_cards)} (#{dealer_total})"
+        puts "----------------------------"
+        prompt "Tournament score: P:#{tournament_score[:player]} D:#{tournament_score[:dealer]}"
+        wait_between_rounds unless tournament_winner?(tournament_score)
+      else
+        puts "----------------------------"
+        if total(player_cards) > total(dealer_cards)
+          tournament_score[:player] += 1
+          prompt("Player won!")
+        else
+          tournament_score[:dealer] += 1
+          prompt("Dealer won!")
+        end
+        prompt "Final player hand was: #{show_cards(player_cards, 'player')} (#{player_total})"
+        prompt "Final dealer hand was: #{show_cards(dealer_cards)} (#{dealer_total})"
+        puts "----------------------------"
+        prompt "Tournament score: P:#{tournament_score[:player]} D:#{tournament_score[:dealer]}"
+        wait_between_rounds unless tournament_winner?(tournament_score)
+      end
+    end
+    break if tournament_score.values.include?(5)
+  end
+
+  loop do
+    prompt "Do you want to play again? (y or n)"
+    outer_answer = gets.chomp
+    if outer_answer == "n"
+      break
+    elsif outer_answer == "y"
+      tournament_score = { player: 0, dealer: 0 }
+      break
+    else
+      prompt "Please choose a valid option."
     end
   end
 end
