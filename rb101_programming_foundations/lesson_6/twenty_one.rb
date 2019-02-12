@@ -43,7 +43,7 @@ def initial_deal(deck, player_deck, dealer_deck)
   deal_cards(deck, dealer_deck, 2)
 end
 
-def show_cards(array, player)
+def show_cards(array, player="player")
   cards = []
   if player == "player"
     array.each do |sub_array|
@@ -110,6 +110,7 @@ end
 # gameplay starts here
 
 loop do
+  prompt "Welcome to Twenty-One!"
   player_cards = []
   dealer_cards = []
   game_deck = initialize_deck
@@ -128,12 +129,18 @@ loop do
   end
 
   if busted?(player_cards)
+    puts "----------------------------"
     prompt "Player busted out! Dealer wins!"
+    prompt "Final player hand was: #{show_cards(player_cards, "player")} (#{total(player_cards)})"
+    prompt "Final dealer hand was: #{show_cards(dealer_cards)} (#{total(dealer_cards)})"
     prompt "Do you want to play again? (y or n)"
     end_answer = gets.chomp
     break if end_answer == "n"
   elsif detect_winner(player_cards)
+    puts "----------------------------"
     prompt "Player won with 21 exactly!"
+    prompt "Final player hand was: #{show_cards(player_cards, "player")} (#{total(player_cards)})"
+    prompt "Final dealer hand was: #{show_cards(dealer_cards)} (#{total(dealer_cards)})"
     prompt "Do you want to play again? (y or n)"
     end_answer = gets.chomp
     break if end_answer == "n"
@@ -142,7 +149,7 @@ loop do
   end
 
   if busted?(player_cards) == false && detect_winner(player_cards) == false
-    loop do
+    while total(dealer_cards) <= 17
       prompt "Player: #{show_cards(player_cards, "player")}"
       puts "Player total: #{total(player_cards)}"
       prompt "Dealer: #{show_cards(dealer_cards, "dealer")}"
@@ -152,18 +159,27 @@ loop do
     end
 
     if busted?(dealer_cards)
+      puts "----------------------------"
       prompt "Dealer busted out! Player wins!"
+      prompt "Final player hand was: #{show_cards(player_cards, "player")} (#{total(player_cards)})"
+      prompt "Final dealer hand was: #{show_cards(dealer_cards)} (#{total(dealer_cards)})"
       prompt "Do you want to play again? (y or n)"
       end_answer = gets.chomp
       break if end_answer == "n"
     elsif detect_winner(dealer_cards)
+      puts "----------------------------"
       prompt "Dealer won with 21 exactly!"
+      prompt "Final player hand was: #{show_cards(player_cards, "player")} (#{total(player_cards)})"
+      prompt "Final dealer hand was: #{show_cards(dealer_cards)} (#{total(dealer_cards)})"
       prompt "Do you want to play again? (y or n)"
       end_answer = gets.chomp
       break if end_answer == "n"
     else
+      puts "----------------------------"
       total(player_cards) > total(dealer_cards) ?
         prompt("Player won!") : prompt("Dealer won!")
+      prompt "Final player hand was: #{show_cards(player_cards, "player")} (#{total(player_cards)})"
+      prompt "Final dealer hand was: #{show_cards(dealer_cards)} (#{total(dealer_cards)})"
       prompt "Do you want to play again? (y or n)"
       end_answer = gets.chomp
       break if end_answer == "n"
@@ -171,4 +187,4 @@ loop do
   end
 end
 
-prompt "Thanks for playing Twenty-One!"
+prompt "Thanks for playing Twenty-One! Good bye!"
