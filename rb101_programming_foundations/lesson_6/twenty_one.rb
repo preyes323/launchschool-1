@@ -157,7 +157,7 @@ loop do
       end_answer = gets.chomp
       break if end_answer == "n"
     elsif detect_winner(dealer_cards)
-      prompt "Player won with 21 exactly!"
+      prompt "Dealer won with 21 exactly!"
       prompt "Do you want to play again? (y or n)"
       end_answer = gets.chomp
       break if end_answer == "n"
