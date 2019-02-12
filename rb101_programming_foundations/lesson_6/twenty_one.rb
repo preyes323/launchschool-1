@@ -1,5 +1,3 @@
-require 'pry'
-
 CARDS = %w(A 2 3 4 5 6 7 8 9 10 J Q K)
 SUITS = %w(H C D S)
 CARDS_NAMES = {
@@ -17,6 +15,7 @@ CARDS_NAMES = {
   "Q" => "Queen",
   "K" => "King"
 }
+GAME_TARGET = 21
 
 def prompt(string)
   puts "=> #{string}"
@@ -86,18 +85,18 @@ def total(cards)
 
   # correct for Aces
   values.select { |value| value == "A" }.count.times do
-    sum -= 10 if sum > 21
+    sum -= 10 if sum > GAME_TARGET
   end
 
   sum
 end
 
 def detect_winner(cards)
-  total(cards) == 21
+  total(cards) == GAME_TARGET
 end
 
 def busted?(cards)
-  total(cards) > 21
+  total(cards) > GAME_TARGET
 end
 
 def alternate_player(current_player)
@@ -164,7 +163,7 @@ unless tournament_score[:player] == 5 || tournament_score[:dealer] == 5
     elsif detect_winner(player_cards)
       tournament_score[:player] += 1
       puts "----------------------------"
-      prompt "Player won with 21 exactly!"
+      prompt "Player won with #{GAME_TARGET} exactly!"
       prompt "Final player hand was: #{show_cards(player_cards, 'player')} (#{player_total})"
       prompt "Final dealer hand was: #{show_cards(dealer_cards)} (#{dealer_total})"
       puts "----------------------------"
@@ -175,12 +174,12 @@ unless tournament_score[:player] == 5 || tournament_score[:dealer] == 5
     end
 
     if busted?(player_cards) == false && detect_winner(player_cards) == false
-      while dealer_total <= 17
+      while dealer_total <= GAME_TARGET-4
         prompt "Player: #{show_cards(player_cards, 'player')}"
         puts "Player total: #{total(player_cards)}"
         prompt "Dealer: #{show_cards(dealer_cards, 'dealer')}"
         puts "Dealer total: #{dealer_total}"
-        deal_cards(game_deck, dealer_cards, 1) if total(dealer_cards) <= 17
+        deal_cards(game_deck, dealer_cards, 1) if total(dealer_cards) <= GAME_TARGET-4
         dealer_total = total(dealer_cards)
         break if busted?(dealer_cards) || detect_winner(dealer_cards)
       end
@@ -197,7 +196,7 @@ unless tournament_score[:player] == 5 || tournament_score[:dealer] == 5
       elsif detect_winner(dealer_cards)
         tournament_score[:dealer] += 1
         puts "----------------------------"
-        prompt "Dealer won with 21 exactly!"
+        prompt "Dealer won with #{GAME_TARGET} exactly!"
         prompt "Final player hand was: #{show_cards(player_cards, 'player')} (#{player_total})"
         prompt "Final dealer hand was: #{show_cards(dealer_cards)} (#{dealer_total})"
         puts "----------------------------"
