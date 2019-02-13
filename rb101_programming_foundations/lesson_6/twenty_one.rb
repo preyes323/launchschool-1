@@ -99,13 +99,6 @@ def busted?(cards)
   total(cards) > GAME_TARGET
 end
 
-def alternate_player(current_player)
-  case current_player
-  when "c" then "p"
-  when "p" then "c"
-  end
-end
-
 def wait_between_rounds
   prompt "Starting new game in 3..."
   Kernel.sleep(1)
@@ -117,44 +110,6 @@ end
 
 def tournament_winner?(score)
   score[:player] == 5 || score[:dealer] == 5
-end
-
-def dealer_gameplay(dealer_total, player_total, player_cards, dealer_cards, game_deck, tournament_score)
-  while dealer_total <= GAME_TARGET - 4
-    prompt "Player: #{show_cards(player_cards, 'player')}"
-    puts "Player total: #{total(player_cards)}"
-    prompt "Dealer: #{show_cards(dealer_cards, 'dealer')}"
-    puts "Dealer total: #{dealer_total}"
-    deal_cards(game_deck, dealer_cards, 1) if total(dealer_cards) <= GAME_TARGET - 4
-    dealer_total = total(dealer_cards)
-    break if busted?(dealer_cards) || detect_winner(dealer_cards)
-  end
-
-  if busted?(dealer_cards)
-    tournament_score[:player] += 1
-    puts "----------------------------"
-    prompt "Dealer busted out! Player wins!"
-    prompt "Final player hand was: #{show_cards(player_cards, 'player')} (#{player_total})"
-    prompt "Final dealer hand was: #{show_cards(dealer_cards)} (#{dealer_total})"
-  elsif detect_winner(dealer_cards)
-    tournament_score[:dealer] += 1
-    puts "----------------------------"
-    prompt "Dealer won with #{GAME_TARGET} exactly!"
-    prompt "Final player hand was: #{show_cards(player_cards, 'player')} (#{player_total})"
-    prompt "Final dealer hand was: #{show_cards(dealer_cards)} (#{dealer_total})"
-  else
-    puts "----------------------------"
-    if total(player_cards) > total(dealer_cards)
-      tournament_score[:player] += 1
-      prompt("Player won!")
-    else
-      tournament_score[:dealer] += 1
-      prompt("Dealer won!")
-    end
-    prompt "Final player hand was: #{show_cards(player_cards, 'player')} (#{player_total})"
-    prompt "Final dealer hand was: #{show_cards(dealer_cards)} (#{dealer_total})"
-  end
-  wait_between_rounds unless tournament_winner?(tournament_score)
 end
 
 # rubocop:disable Metrics/LineLength
@@ -210,14 +165,44 @@ unless tournament_score[:player] == 5 || tournament_score[:dealer] == 5
     end
 
     if busted?(player_cards) == false && detect_winner(player_cards) == false
-      dealer_gameplay(dealer_total, player_total, player_cards, dealer_cards, game_deck, tournament_score)
+      while dealer_total <= GAME_TARGET - 4
+        prompt "Player: #{show_cards(player_cards, 'player')}"
+        puts "Player total: #{total(player_cards)}"
+        prompt "Dealer: #{show_cards(dealer_cards, 'dealer')}"
+        puts "Dealer total: #{dealer_total}"
+        deal_cards(game_deck, dealer_cards, 1)
+        dealer_total = total(dealer_cards)
+        break if busted?(dealer_cards) || detect_winner(dealer_cards)
+      end
+
+      if busted?(dealer_cards)
+        tournament_score[:player] += 1
+        puts "----------------------------"
+        prompt "Dealer busted out! Player wins!"
+      elsif detect_winner(dealer_cards)
+        tournament_score[:dealer] += 1
+        puts "----------------------------"
+        prompt "Dealer won with #{GAME_TARGET} exactly!"
+      else
+        puts "----------------------------"
+        if total(player_cards) > total(dealer_cards)
+          tournament_score[:player] += 1
+          prompt("Player won!")
+        else
+          tournament_score[:dealer] += 1
+          prompt("Dealer won!")
+        end
+      end
+      prompt "Final player hand was: #{show_cards(player_cards, 'player')} (#{player_total})"
+      prompt "Final dealer hand was: #{show_cards(dealer_cards)} (#{dealer_total})"
+      wait_between_rounds unless tournament_winner?(tournament_score)
     end
     break if tournament_score.values.include?(5)
   end
 
   loop do
-    prompt "----------------------------------------"
-    prompt "The tournament is complete!"
+    puts "-----------------------------------------"
+    prompt "The tournament is over!"
     prompt "Do you want to play again? (y or n)"
     outer_answer = gets.chomp.downcase
     if outer_answer == "n"
