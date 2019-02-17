@@ -1,5 +1,3 @@
-require 'pry'
-
 CHARACTER = "*"
 
 def format_diamond(array, num)
@@ -61,15 +59,16 @@ def hollow_diamond(num)
     diamond_array << counter if counter.odd?
   end
   puts format_hollow(diamond_array, num)
-  
 end
 
 diamond(1)
 diamond(3)
 diamond(9)
 diamond(15)
+diamond(45)
 
 hollow_diamond(1)
 hollow_diamond(3)
 hollow_diamond(9)
 hollow_diamond(15)
+hollow_diamond(45)
