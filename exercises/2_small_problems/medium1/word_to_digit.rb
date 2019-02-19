@@ -15,10 +15,12 @@ def word_to_digit(string)
   words = string.split
   new_array = []
   words.each do |word|
-    if ALPHA_NUM.keys.include?(word)
-      new_array << ALPHA_NUM[word]
+    punctuation = word.match(/\W+/).to_s
+    clean_word = word.match(/\w+/).to_s
+    if ALPHA_NUM.keys.include?(clean_word)
+      new_array << ALPHA_NUM[clean_word].to_s + punctuation
     else
-      new_array << word
+      new_array << clean_word.to_s + punctuation
     end
   end
   new_array.join(" ")
