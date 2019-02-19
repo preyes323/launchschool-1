@@ -41,10 +41,7 @@ the people, for the people, shall not perish from the
 earth.
 MSG
 
-frankenstein = File.open( "frankenstein.txt" )
+frankenstein = File.read( "frankenstein.txt" )
 
 longest_sentence(sample_text)
 longest_sentence(frankenstein)
-
-puts frankenstein.closed?
-frankenstein.close
