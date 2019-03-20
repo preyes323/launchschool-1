@@ -12,12 +12,13 @@
 #   -- break when you reach an index of < 0
 
 def reverse(string)
-  array = []
-  counter = string.size-1
-  counter.downto(0) do |n|
-    array << string[n]
+  reversed_string = ""
+  i = 0
+  while i < string.size
+    reversed_string = string[i] + reversed_string
+    i += 1
   end
-  array.join
+  reversed_string
 end
 
 # These are tests to check that your code is working. After writing
