@@ -28,28 +28,3 @@ puts("===============================================")
       (capitalize_words("mike bloomfield") == "Mike Bloomfield").to_s
     )
 puts("===============================================")
-
-
-
-
-
-
-
-
-
-
-
-
-#   capitalized = string.split
-#   puts capitalized[0]
-#   puts capitalized[1]
-  
-#   i = 0 
-#   j = 0
-#   while i < capitalized.length
-#     capitalized[i]
-    
-    
-  
-  
-# #  return capitalized 
