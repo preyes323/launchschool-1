@@ -6,14 +6,15 @@
 # Difficulty: easy.
 
 def factorial(n)
-  if n == 0
-    return 1
+  if n < 0
+    return nil
   else
-    result = []
-    n.downto(1) do |number|
-      result << number
+    result = 1
+    while n > 0
+      result = result * n
+      n -= 1
     end
-    return result.reduce(:*)
+    return result
   end
 end
 
