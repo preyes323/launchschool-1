@@ -15,10 +15,10 @@
 def is_prime?(number)
   return false if number <= 1
   return true if number == 2
-  2.upto(number) do |num|
+  2.upto(number-1) do |num|
     return false if number % num == 0
   end
-  return true
+  true
 end
 
 puts is_prime?(1)
