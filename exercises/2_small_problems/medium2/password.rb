@@ -4,7 +4,6 @@ def verify_password(pw)
   puts '** Login **'
   print 'Password: '
   input = gets.chomp
-  
   if input == pw
     puts 'Welcome to the inside!'
   else
