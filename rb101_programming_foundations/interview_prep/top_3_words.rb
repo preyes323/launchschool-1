@@ -1,6 +1,7 @@
 def top_3_words(text)
-  text = text.gsub(/[^A-z' ]/, "").squeeze(" ")
+  text = text.gsub(/[^A-z' ]/, "").squeeze(" ").downcase
   chars = text.split(" ")
+  return [] if chars == ["'"]
   char_count = chars.uniq.each_with_object({}) do |char, hash|
     hash[char] = chars.count(char)
   end
@@ -17,4 +18,3 @@ def top_3_words(text)
     return [sorted_vals.last[0], sorted_vals[-2][0], sorted_vals[-3][0]]
   end
 end
-  
