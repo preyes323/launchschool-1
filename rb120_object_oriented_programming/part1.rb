@@ -4,9 +4,12 @@ class GoodDog
   end
 
   def speak
-    "Arf!"
+    "#{@name} says Arf!"
   end
 end
 
 sparky = GoodDog.new("Sparky")
+fido = GoodDog.new("Fido")
 puts sparky.speak
+puts fido.speak
+
