@@ -1,8 +1,12 @@
 class GoodDog
-  def initialise
-    puts "This object was initialised!"
+  def initialize(name)
+    @name = name
+  end
+
+  def speak
+    "Arf!"
   end
 end
 
-sparky = GoodDog.new
-
+sparky = GoodDog.new("Sparky")
+puts sparky.speak
