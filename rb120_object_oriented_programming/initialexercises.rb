@@ -1,7 +1,7 @@
 class MyCar
   attr_accessor :colour
   attr_reader :year
-  
+
   def initialize(year, colour, model)
     @year = year
     @colour = colour
@@ -13,11 +13,11 @@ class MyCar
     @current_speed += 5
   end
 
-  def break
-    @current_speed -= 3
+  def brake
+    @current_speed -= 5
   end
 
-  def shut_off
+  def shut_off_car
     @current_speed = 0
   end
 
@@ -26,9 +26,12 @@ class MyCar
   end
 end
 
-fiat = MyCar.new(2003, "red", "oldy.v3")
-puts fiat.current_speed
-fiat.speed_up
-puts fiat.current_speed
-fiat.colour = "blue"
-puts fiat.colour
+megan_car = MyCar.new(1956, "blue", "big")
+puts megan_car.current_speed
+megan_car.speed_up
+puts megan_car.current_speed
+puts megan_car.colour
+megan_car.colour = "black"
+puts megan_car.colour
+puts megan_car.year
+
