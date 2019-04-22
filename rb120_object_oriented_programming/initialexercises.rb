@@ -43,7 +43,7 @@ class MyCar
   end
 
   def to_s
-    self
+    "My car is a #{@colour} #{@model} car, dating to #{@year}!"
   end
 
 end
