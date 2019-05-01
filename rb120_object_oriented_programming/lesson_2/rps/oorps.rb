@@ -102,7 +102,7 @@ end
 # Game Orchestration Engine
 class RPSGame
   WINNING_SCORE = 5
-  
+
   attr_accessor :human, :computer
 
   def initialize
