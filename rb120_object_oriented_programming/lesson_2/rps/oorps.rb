@@ -56,10 +56,11 @@ class Move
 end
 
 class Player
-  attr_accessor :move, :name
+  attr_accessor :move, :name, :score
 
   def initialize
     set_name
+    @score = 0
   end
 end
 
@@ -78,6 +79,7 @@ class Human < Player
   def choose
     choice = nil
     loop do
+      puts "-------------------------------------------------"
       puts "Please choose rock, paper, scissors, spock or lizard:"
       choice = gets.chomp
       break if Move::VALUES.include?(choice)
@@ -99,6 +101,8 @@ end
 
 # Game Orchestration Engine
 class RPSGame
+  WINNING_SCORE = 5
+  
   attr_accessor :human, :computer
 
   def initialize
@@ -108,6 +112,7 @@ class RPSGame
 
   def display_welcome_message
     puts "Welcome to Rock, Paper, Scissors, Lizard, Spock!"
+    puts "You need #{WINNING_SCORE} wins of individual games to be the overall winner."
   end
 
   def display_goodbye_message
@@ -122,10 +127,25 @@ class RPSGame
   def display_winner
     if human.move > computer.move
       puts "#{human.name} won!"
+      human.score += 1
     elsif human.move < computer.move
       puts "#{computer.name} won!"
+      computer.score += 1
     else
       puts "It's a tie!"
+    end
+  end
+
+  def display_score
+    puts "Current overall score: #{human.score} (human) // #{computer.score} (computer)"
+  end
+
+  def display_overall_winner
+    puts "-------------------------------------------------"
+    if human.score == 5
+      puts "You won! Well done, #{human.name}!"
+    elsif computer.score == 5
+      puts "#{computer.name} won! Better luck next time, #{human.name}!"
     end
   end
 
@@ -142,13 +162,17 @@ class RPSGame
   end
 
   def play
+    system('clear') || system('cls')
     display_welcome_message
-
     loop do
-      human.choose
-      computer.choose
-      display_moves
-      display_winner
+      until human.score == WINNING_SCORE || computer.score == WINNING_SCORE
+        human.choose
+        computer.choose
+        display_moves
+        display_winner
+        display_score
+      end
+      display_overall_winner
       break unless play_again?
     end
     display_goodbye_message
