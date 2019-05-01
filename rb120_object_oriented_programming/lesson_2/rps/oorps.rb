@@ -112,7 +112,7 @@ class RPSGame
 
   def display_welcome_message
     puts "Welcome to Rock, Paper, Scissors, Lizard, Spock!"
-    puts "You need #{WINNING_SCORE} wins of individual games to be the overall winner."
+    puts "You need #{WINNING_SCORE} wins of to be the overall winner."
   end
 
   def display_goodbye_message
@@ -137,7 +137,7 @@ class RPSGame
   end
 
   def display_score
-    puts "Current overall score: #{human.score} (human) // #{computer.score} (computer)"
+    puts "Current score: #{human.score} (human) // #{computer.score} (computer)"
   end
 
   def display_overall_winner
