@@ -126,13 +126,13 @@ class RPSGame
 
   def display_winner
     if human.move > computer.move
-      puts "#{human.name} won!"
+      return "#{human.name} won!"
       human.score += 1
     elsif human.move < computer.move
-      puts "#{computer.name} won!"
+      return "#{computer.name} won!"
       computer.score += 1
     else
-      puts "It's a tie!"
+      "It's a tie!"
     end
   end
 
@@ -162,21 +162,25 @@ class RPSGame
   end
 
   def play
-    system('clear') || system('cls')
-    display_welcome_message
     loop do
       until human.score == WINNING_SCORE || computer.score == WINNING_SCORE
         human.choose
         computer.choose
         display_moves
-        display_winner
+        puts display_winner
         display_score
       end
       display_overall_winner
       break unless play_again?
     end
+  end
+
+  def setup
+    system('clear') || system('cls')
+    display_welcome_message
+    play
     display_goodbye_message
   end
 end
 
-RPSGame.new.play
+RPSGame.new.setup
