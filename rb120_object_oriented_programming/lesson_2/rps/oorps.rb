@@ -1,5 +1,6 @@
 class Move
-  VALUES = ["rock", "paper", "scissors", "spock", "lizard"]
+  VALUES = %w(rock paper scissors lizard spock)
+  
   def initialize(value)
     @value = value
   end
@@ -50,10 +51,50 @@ class Move
       (spock? && other_move.lizard?)
   end
 
+  def tie(other_value)
+    # @value == other_value
+  end
+  
   def to_s
     @value
   end
 end
+=begin
+class Rock < Move
+  def beats?(other_move)
+    @value == "rock" && other_move == "scissors" ||
+      @value == "rock" && other_move == "lizard"
+  end
+end
+
+class Paper < Move
+  def beats?(other_move)
+    @value == "paper" && other_move == "rock" ||
+      @value == "paper" && other_move == "spock"
+  end
+end
+
+class Scissors < Move
+  def beats?(other_move)
+    @value == "scissors" && other_move == "paper" ||
+      @value == "scissors" && other_move == "lizard"
+  end
+end
+
+class Spock < Move
+  def beats?(other_move)
+    @value == "spock" && other_move == "scissors" ||
+      @value == "spock" && other_move == "rock"
+  end
+end
+
+class Lizard < Move
+  def beats?(other_move)
+    @value == "lizard" && other_move == "spock" ||
+      @value == "lizard" && other_move == "paper"
+  end
+end
+=end
 
 class Player
   attr_accessor :move, :name, :score
@@ -81,11 +122,11 @@ class Human < Player
     loop do
       puts "-------------------------------------------------"
       puts "Please choose rock, paper, scissors, spock or lizard:"
-      choice = gets.chomp
+      choice = gets.chomp.downcase
       break if Move::VALUES.include?(choice)
       puts "Sorry, invalid choice."
     end
-    self.move = Move.new(choice)
+    self.move = choice
   end
 end
 
@@ -95,7 +136,7 @@ class Computer < Player
   end
 
   def choose
-    self.move = Move.new(Move::VALUES.sample)
+    self.move = Move::VALUES.sample
   end
 end
 
@@ -126,18 +167,18 @@ class RPSGame
 
   def display_winner
     if human.move > computer.move
-      return "#{human.name} won!"
       human.score += 1
-    elsif human.move < computer.move
-      return "#{computer.name} won!"
-      computer.score += 1
-    else
+      "#{human.name} won!"
+    elsif human.move == computer.move
       "It's a tie!"
+    else
+      computer.score += 1
+      "#{computer.name} won!"
     end
   end
 
   def display_score
-    puts "Current score: #{human.score} (human) // #{computer.score} (computer)"
+    puts "Current score: #{human.score} (#{human.name}) // #{computer.score} (#{computer.name})"
   end
 
   def display_overall_winner
