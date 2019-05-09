@@ -59,6 +59,7 @@ class Move
     @value
   end
 end
+
 =begin
 class Rock < Move
   def beats?(other_move)
@@ -144,11 +145,12 @@ end
 class RPSGame
   WINNING_SCORE = 5
 
-  attr_accessor :human, :computer
+  attr_accessor :human, :computer, :game_history
 
   def initialize
     @human = Human.new
     @computer = Computer.new
+    @game_history = []
   end
 
   def display_welcome_message
@@ -158,11 +160,13 @@ class RPSGame
 
   def display_goodbye_message
     puts "Thanks for playing Rock, Paper, Scissors, Lizard, Spock. Good bye!"
+    p @game_history
   end
 
   def display_moves
     puts "#{human.name} chose #{human.move}."
     puts "#{computer.name} chose #{computer.move}."
+    @game_history << [human.move, computer.move]
   end
 
   def display_winner
@@ -212,6 +216,8 @@ class RPSGame
         display_score
       end
       display_overall_winner
+      human.score = 0
+      computer.score = 0
       break unless play_again?
     end
   end
