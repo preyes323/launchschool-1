@@ -27,11 +27,11 @@ class Move
 
   def >(other_move)
     (rock? && other_move.scissors?) ||
-      (paper? && other_move.rock?) ||
-      (scissors? && other_move.paper?) ||
       (rock? && other_move.lizard?) ||
+      (paper? && other_move.rock?) ||
       (paper? && other_move.spock?) ||
       (scissors? && other_move.lizard?) ||
+      (scissors? && other_move.paper?) ||
       (lizard? && other_move.spock?) ||
       (lizard? && other_move.paper?) ||
       (spock? && other_move.scissors?) ||
@@ -40,11 +40,11 @@ class Move
 
   def <(other_move)
     (rock? && other_move.paper?) ||
-      (paper? && other_move.scissors?) ||
-      (scissors? && other_move.rock?) ||
       (rock? && other_move.spock?) ||
       (paper? && other_move.lizard?) ||
+      (paper? && other_move.scissors?) ||
       (scissors? && other_move.spock?) ||
+      (scissors? && other_move.rock?) ||
       (lizard? && other_move.rock?) ||
       (lizard? && other_move.scissors?) ||
       (spock? && other_move.paper?) ||
@@ -153,6 +153,11 @@ class RPSGame
     @game_history = []
   end
 
+  
+
+
+
+  
   def display_welcome_message
     puts "Welcome to Rock, Paper, Scissors, Lizard, Spock!"
     puts "You need #{WINNING_SCORE} wins of to be the overall winner."
@@ -166,18 +171,20 @@ class RPSGame
   def display_moves
     puts "#{human.name} chose #{human.move}."
     puts "#{computer.name} chose #{computer.move}."
-    @game_history << [human.move, computer.move]
   end
 
   def display_winner
     if human.move > computer.move
       human.score += 1
-      "#{human.name} won!"
+      puts "#{human.name} won!"
+      @game_history << [human.move, computer.move, "human"]
     elsif human.move == computer.move
-      "It's a tie!"
+      puts "It's a tie!"
+      @game_history << [human.move, computer.move, "tie"]
     else
       computer.score += 1
-      "#{computer.name} won!"
+      puts "#{computer.name} won!"
+      @game_history << [human.move, computer.move, "computer"]
     end
   end
 
@@ -212,7 +219,7 @@ class RPSGame
         human.choose
         computer.choose
         display_moves
-        puts display_winner
+        display_winner
         display_score
       end
       display_overall_winner
