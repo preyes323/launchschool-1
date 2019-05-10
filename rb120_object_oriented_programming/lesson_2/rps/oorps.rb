@@ -207,6 +207,10 @@ class RPSGame
     end
   end
 
+  def evaluate_gameplay(history)
+    p history
+  end
+
   def play_again?
     answer = nil
     loop do
@@ -222,6 +226,7 @@ class RPSGame
   def play
     loop do
       until human.score == WINNING_SCORE || computer.score == WINNING_SCORE
+        evaluate_gameplay(@game_history)
         human.choose
         computer.choose(weighted_array)
         display_moves
