@@ -136,27 +136,34 @@ class Computer < Player
     self.name = ['R2D2', 'Hal', "Chappie", "Sonny", "Number 5"].sample
   end
 
-  def choose
-    self.move = Move::VALUES.sample
+  def choose(choices)
+    self.move = choices.sample
   end
 end
 
 # Game Orchestration Engine
 class RPSGame
   WINNING_SCORE = 5
+  INITIAL_WEIGHTING = 100.0 / Move::VALUES.size / 100
 
-  attr_accessor :human, :computer, :game_history
+  attr_accessor :human, :computer, :game_history, :weighting
 
   def initialize
     @human = Human.new
     @computer = Computer.new
     @game_history = []
+    @weighting = INITIAL_WEIGHTING
   end
 
-  
-
-
-
+  def weighted_array
+    @weighted_array = []
+    Move::VALUES.each do |val|
+      (@weighting * 100).to_i.times do
+        @weighted_array << val
+      end
+    end
+    @weighted_array
+  end
   
   def display_welcome_message
     puts "Welcome to Rock, Paper, Scissors, Lizard, Spock!"
@@ -165,7 +172,6 @@ class RPSGame
 
   def display_goodbye_message
     puts "Thanks for playing Rock, Paper, Scissors, Lizard, Spock. Good bye!"
-    p @game_history
   end
 
   def display_moves
@@ -217,7 +223,7 @@ class RPSGame
     loop do
       until human.score == WINNING_SCORE || computer.score == WINNING_SCORE
         human.choose
-        computer.choose
+        computer.choose(weighted_array)
         display_moves
         display_winner
         display_score
