@@ -144,7 +144,7 @@ end
 # Game Orchestration Engine
 class RPSGame
   WINNING_SCORE = 5
-  INITIAL_WEIGHTING = 100.0 / Move::VALUES.size / 100
+  INITIAL_WEIGHTING = (1..5).each_with_object([]) {|_,arr| arr << (100.0 / Move::VALUES.size)}
 
   attr_accessor :human, :computer, :game_history, :weighting
 
@@ -157,8 +157,8 @@ class RPSGame
 
   def weighted_array
     @weighted_array = []
-    Move::VALUES.each do |val|
-      (@weighting * 100).to_i.times do
+    Move::VALUES.each_with_index do |val, idx|
+      (@weighting[idx]).to_i.times do
         @weighted_array << val
       end
     end
@@ -207,8 +207,22 @@ class RPSGame
     end
   end
 
-  def evaluate_gameplay(history)
-    p history
+  def update_weighting(history)
+    computer_selects_rock = history.select do |round|
+      round[1] == "rock"
+    end
+    human_wins, computer_wins = computer_selects_rock.partition do |round|
+      round[2] == "human"
+    end
+    if human_wins.size.to_f / computer_selects_rock.size > 0.6
+      if @weighting[0] > 4
+        @weighting[0] -= 5
+        @weighting[1] += 1.25
+        @weighting[2] += 1.25
+        @weighting[3] += 1.25
+        @weighting[4] += 1.25        
+      end
+    end
   end
 
   def play_again?
@@ -226,7 +240,7 @@ class RPSGame
   def play
     loop do
       until human.score == WINNING_SCORE || computer.score == WINNING_SCORE
-        evaluate_gameplay(@game_history)
+        update_weighting(@game_history)
         human.choose
         computer.choose(weighted_array)
         display_moves
