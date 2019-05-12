@@ -183,7 +183,7 @@ class RPSGame
         @weighting[1] += 1.25
         @weighting[2] += 1.25
         @weighting[3] += 1.25
-        @weighting[4] += 1.25        
+        @weighting[4] += 1.25
       end
     end
   end
