@@ -127,6 +127,8 @@ class RPSGame
     @game_history = []
     @weighting = INITIAL_WEIGHTING
     @round_winner = ""
+    @computer_selects_rock = []
+    @human_wins_when_computer_rock = []
   end
 
   def weighted_array
@@ -189,24 +191,6 @@ class RPSGame
     end
   end
 
-  def update_weighting
-    computer_selects_rock = @game_history.select do |round|
-      round[1] == "rock"
-    end
-    human_wins, = computer_selects_rock.partition do |round|
-      round[2] == "human"
-    end
-    if human_wins.size.to_f / computer_selects_rock.size > 0.6
-      if @weighting[0] > 4
-        @weighting[0] -= 5
-        @weighting[1] += 1.25
-        @weighting[2] += 1.25
-        @weighting[3] += 1.25
-        @weighting[4] += 1.25
-      end
-    end
-  end
-
   def play_again?
     answer = nil
     loop do
@@ -228,6 +212,7 @@ class RPSGame
     display_welcome_message
     loop do
       until human.score == WINNING_SCORE || computer.score == WINNING_SCORE
+        gather_history_data
         update_weighting
         human.choose
         computer.choose(weighted_array)
@@ -242,6 +227,29 @@ class RPSGame
       break unless play_again?
     end
     display_goodbye_message
+  end
+
+  def update_weighting
+    if @human_wins_when_computer_rock.size.to_f / @computer_selects_rock.size > 0.6
+      if @weighting[0] > 4
+        @weighting[0] -= 5
+        @weighting[1] += 1.25
+        @weighting[2] += 1.25
+        @weighting[3] += 1.25
+        @weighting[4] += 1.25
+      end
+    end
+  end
+
+  private
+
+  def gather_history_data
+    @computer_selects_rock = @game_history.select do |round|
+      round[1] == "rock"
+    end
+    @human_wins_when_computer_rock, = @computer_selects_rock.partition do |round|
+      round[2] == "human"
+    end
   end
 end
 
