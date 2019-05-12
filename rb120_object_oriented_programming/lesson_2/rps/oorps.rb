@@ -131,16 +131,6 @@ class RPSGame
     @human_wins_when_computer_rock = []
   end
 
-  def weighted_array
-    @weighted_array = []
-    Move::INPUT_TO_FULL_VALUES.values.each_with_index do |val, idx|
-      (@weighting[idx]).to_i.times do
-        @weighted_array << val
-      end
-    end
-    @weighted_array
-  end
-
   def display_welcome_message
     puts "Welcome to Rock, Paper, Scissors, Lizard, Spock!"
     puts "You need #{WINNING_SCORE} wins of to be the overall winner."
@@ -229,6 +219,17 @@ class RPSGame
     display_goodbye_message
   end
 
+########################### WEIGHTING BELOW HERE
+  def weighted_array
+    @weighted_array = []
+    Move::INPUT_TO_FULL_VALUES.values.each_with_index do |val, idx|
+      (@weighting[idx]).to_i.times do
+        @weighted_array << val
+      end
+    end
+    @weighted_array
+  end
+      
   def update_weighting
     if @human_wins_when_computer_rock.size.to_f / @computer_selects_rock.size > 0.6
       if @weighting[0] > 4
@@ -241,8 +242,6 @@ class RPSGame
     end
   end
 
-  private
-
   def gather_history_data
     @computer_selects_rock = @game_history.select do |round|
       round[1] == "rock"
@@ -252,5 +251,10 @@ class RPSGame
     end
   end
 end
+
+
+########################## WEIGHTING ENDS HERE
+
+
 
 RPSGame.new.play
