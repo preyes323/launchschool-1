@@ -196,8 +196,12 @@ class RPSGame
       break if ['y', 'n'].include?(answer.downcase)
       puts "Sorry, must be y or n."
     end
-    return true if answer.downcase == 'y'
-    false
+    if answer.downcase == 'y'
+      system('clear') || system('cls')
+      return true
+    else
+      return false
+    end
   end
 
   def play
@@ -219,7 +223,6 @@ class RPSGame
     end
     display_goodbye_message
   end
-
 end
 
 RPSGame.new.play
