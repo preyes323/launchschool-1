@@ -1,6 +1,6 @@
 class Move
   VALUES = %w(rock paper scissors lizard spock)
-  
+
   def initialize(value)
     @value = value
   end
@@ -54,7 +54,7 @@ class Move
   def tie(other_value)
     # @value == other_value
   end
-  
+
   def to_s
     @value
   end
@@ -107,7 +107,7 @@ end
 # Game Orchestration Engine
 class RPSGame
   WINNING_SCORE = 5
-  INITIAL_WEIGHTING = (1..5).each_with_object([]) {|_,arr| arr << (100.0 / Move::VALUES.size)}
+  INITIAL_WEIGHTING = (1..5).each_with_object([]) { |_, arr| arr << (100.0 / Move::VALUES.size) }
 
   attr_accessor :human, :computer, :game_history, :weighting
 
@@ -127,7 +127,7 @@ class RPSGame
     end
     @weighted_array
   end
-  
+
   def display_welcome_message
     puts "Welcome to Rock, Paper, Scissors, Lizard, Spock!"
     puts "You need #{WINNING_SCORE} wins of to be the overall winner."
@@ -174,17 +174,16 @@ class RPSGame
     computer_selects_rock = history.select do |round|
       round[1] == "rock"
     end
-    human_wins, computer_wins = computer_selects_rock.partition do |round|
+    human_wins, = computer_selects_rock.partition do |round|
       round[2] == "human"
     end
     if human_wins.size.to_f / computer_selects_rock.size > 0.6
-      if @weighting[0] > 4
-        @weighting[0] -= 5
-        @weighting[1] += 1.25
-        @weighting[2] += 1.25
-        @weighting[3] += 1.25
-        @weighting[4] += 1.25        
-      end
+      break if @weighting[0] > 4
+      @weighting[0] -= 5
+      @weighting[1] += 1.25
+      @weighting[2] += 1.25
+      @weighting[3] += 1.25
+      @weighting[4] += 1.25
     end
   end
 
