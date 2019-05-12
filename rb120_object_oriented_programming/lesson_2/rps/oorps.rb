@@ -2,11 +2,11 @@ require 'pry'
 
 class Move
   INPUT_VALUES = %w(ro pa sc li sp)
-  INPUT_TO_FULL_VALUES = {'ro' => "rock",
-                          'pa' => 'paper',
-                          'sc' => 'scissors',
-                          'li' => 'lizard',
-                          'sp' => 'spock'}
+  INPUT_TO_FULL_VALUES = { 'ro' => "rock",
+                           'pa' => 'paper',
+                           'sc' => 'scissors',
+                           'li' => 'lizard',
+                           'sp' => 'spock' }
 
   def initialize(value)
     @value = value
@@ -115,7 +115,9 @@ end
 # Game Orchestration Engine
 class RPSGame
   WINNING_SCORE = 5
-  INITIAL_WEIGHTING = (1..5).each_with_object([]) { |_, arr| arr << (100.0 / Move::INPUT_VALUES.size) }
+  INITIAL_WEIGHTING = (1..Move::INPUT_VALUES.size).each_with_object([]) do |_, arr|
+    arr << (100.0 / Move::INPUT_VALUES.size)
+  end
 
   attr_accessor :human, :computer, :game_history, :weighting
 
@@ -124,6 +126,7 @@ class RPSGame
     @computer = Computer.new
     @game_history = []
     @weighting = INITIAL_WEIGHTING
+    @round_winner = ""
   end
 
   def weighted_array
@@ -150,18 +153,26 @@ class RPSGame
     puts "#{computer.name} chose #{computer.move}."
   end
 
-  def display_winner
+  def calculate_winner
     if human.move > computer.move
       human.score += 1
-      puts "#{human.name} won!"
       @game_history << [human.move, computer.move, "human"]
+      @round_winner = "human"
     elsif human.move == computer.move
-      puts "It's a tie!"
       @game_history << [human.move, computer.move, "tie"]
+      @round_winner = "tie"
     else
       computer.score += 1
-      puts "#{computer.name} won!"
       @game_history << [human.move, computer.move, "computer"]
+      @round_winner = "computer"
+    end
+  end
+
+  def display_winner
+    case @round_winner
+    when "human" then puts "#{human.name} won!"
+    when "computer" then puts "#{computer.name} won!"
+    when "tie" then puts "It's a tie!"
     end
   end
 
@@ -178,8 +189,8 @@ class RPSGame
     end
   end
 
-  def update_weighting(history)
-    computer_selects_rock = history.select do |round|
+  def update_weighting
+    computer_selects_rock = @game_history.select do |round|
       round[1] == "rock"
     end
     human_wins, = computer_selects_rock.partition do |round|
@@ -217,10 +228,11 @@ class RPSGame
     display_welcome_message
     loop do
       until human.score == WINNING_SCORE || computer.score == WINNING_SCORE
-        update_weighting(@game_history)
+        update_weighting
         human.choose
         computer.choose(weighted_array)
         display_moves
+        calculate_winner
         display_winner
         display_score
       end
