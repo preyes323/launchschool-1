@@ -1,5 +1,12 @@
+require 'pry'
+
 class Move
-  VALUES = %w(rock paper scissors lizard spock)
+  INPUT_VALUES = %w(ro pa sc li sp)
+  INPUT_TO_FULL_VALUES = {'ro' => "rock",
+                          'pa' => 'paper',
+                          'sc' => 'scissors',
+                          'li' => 'lizard',
+                          'sp' => 'spock'}
 
   def initialize(value)
     @value = value
@@ -85,9 +92,10 @@ class Human < Player
     choice = nil
     loop do
       puts "-------------------------------------------------"
-      puts "Please choose rock, paper, scissors, spock or lizard:"
-      choice = gets.chomp.downcase
-      break if Move::VALUES.include?(choice)
+      puts "Please choose (ro)ck, (pa)per, (sc)issors, (sp)ock or (li)zard."
+      puts "Type the first two letters of your choice:"
+      choice = Move::INPUT_TO_FULL_VALUES[gets.chomp.downcase]
+      break if Move::INPUT_TO_FULL_VALUES.values.include?(choice)
       puts "Sorry, invalid choice."
     end
     self.move = choice
@@ -107,7 +115,7 @@ end
 # Game Orchestration Engine
 class RPSGame
   WINNING_SCORE = 5
-  INITIAL_WEIGHTING = (1..5).each_with_object([]) { |_, arr| arr << (100.0 / Move::VALUES.size) }
+  INITIAL_WEIGHTING = (1..5).each_with_object([]) { |_, arr| arr << (100.0 / Move::INPUT_VALUES.size) }
 
   attr_accessor :human, :computer, :game_history, :weighting
 
@@ -120,7 +128,7 @@ class RPSGame
 
   def weighted_array
     @weighted_array = []
-    Move::VALUES.each_with_index do |val, idx|
+    Move::INPUT_TO_FULL_VALUES.values.each_with_index do |val, idx|
       (@weighting[idx]).to_i.times do
         @weighted_array << val
       end
