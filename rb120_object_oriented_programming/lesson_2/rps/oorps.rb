@@ -178,12 +178,13 @@ class RPSGame
       round[2] == "human"
     end
     if human_wins.size.to_f / computer_selects_rock.size > 0.6
-      break if @weighting[0] > 4
-      @weighting[0] -= 5
-      @weighting[1] += 1.25
-      @weighting[2] += 1.25
-      @weighting[3] += 1.25
-      @weighting[4] += 1.25
+      if @weighting[0] > 4
+        @weighting[0] -= 5
+        @weighting[1] += 1.25
+        @weighting[2] += 1.25
+        @weighting[3] += 1.25
+        @weighting[4] += 1.25        
+      end
     end
   end
 
