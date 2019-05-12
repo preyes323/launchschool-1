@@ -201,6 +201,8 @@ class RPSGame
   end
 
   def play
+    system('clear') || system('cls')
+    display_welcome_message
     loop do
       until human.score == WINNING_SCORE || computer.score == WINNING_SCORE
         update_weighting(@game_history)
@@ -215,14 +217,9 @@ class RPSGame
       computer.score = 0
       break unless play_again?
     end
-  end
-
-  def setup
-    system('clear') || system('cls')
-    display_welcome_message
-    play
     display_goodbye_message
   end
+
 end
 
-RPSGame.new.setup
+RPSGame.new.play
