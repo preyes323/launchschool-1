@@ -103,7 +103,8 @@ class Human < Player
 end
 
 class Computer < Player
-  INITIAL_WEIGHTING = (1..Move::INPUT_VALUES.size).each_with_object([]) do |_, arr|
+  range = 1..(Move::INPUT_VALUES.size)
+  INITIAL_WEIGHTING = range.each_with_object([]) do |_, arr|
     arr << (100.0 / Move::INPUT_VALUES.size)
   end
 
@@ -111,7 +112,7 @@ class Computer < Player
     super
     @weighting = INITIAL_WEIGHTING
   end
-  
+
   def set_name
     self.name = ['R2D2', 'Hal', "Chappie", "Sonny", "Number 5"].sample
   end
@@ -123,7 +124,7 @@ class Computer < Player
   end
 
   private
-  
+
   def weighted_array
     @weighted_array = []
     Move::INPUT_TO_FULL_VALUES.values.each_with_index do |val, idx|
@@ -133,9 +134,9 @@ class Computer < Player
     end
     @weighted_array
   end
-      
+
   def update_weighting(proportion)
-    if proportion > 0.6 || @weighting[0] > 4
+    if proportion > 0.6 || @weighting[0] <= 4
       @weighting[0] -= 5
       @weighting[1] += 1.25
       @weighting[2] += 1.25
@@ -151,11 +152,8 @@ class Computer < Player
     human_wins_when_computer_rock, = computer_selects_rock.partition do |round|
       round[2] == "human"
     end
-    return (human_wins_when_computer_rock.size.to_f / computer_selects_rock.size)
+    (human_wins_when_computer_rock.size.to_f / computer_selects_rock.size)
   end
-
-
-  
 end
 
 # Game Orchestration Engine
@@ -211,7 +209,8 @@ class RPSGame
   end
 
   def display_score
-    puts "Current score: #{human.score} (#{human.name}) // #{computer.score} (#{computer.name})"
+    puts "Current score: #{human.score} (#{human.name})"\
+         "// #{computer.score} (#{computer.name})"
   end
 
   def display_overall_winner
@@ -231,7 +230,7 @@ class RPSGame
       break if ['y', 'n'].include?(answer.downcase)
       puts "Sorry, must be y or n."
     end
-    if answer.downcase == 'y'
+    if answer.downcase == "y"
       system('clear') || system('cls')
       return true
     else
@@ -252,13 +251,12 @@ class RPSGame
         display_score
       end
       display_overall_winner
-      human.score, computer.score = 0, 0
+      human.score = 0
+      computer.score = 0
       break unless play_again?
     end
     display_goodbye_message
   end
-  
 end
-
 
 RPSGame.new.play
