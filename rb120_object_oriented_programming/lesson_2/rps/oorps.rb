@@ -103,21 +103,65 @@ class Human < Player
 end
 
 class Computer < Player
+  INITIAL_WEIGHTING = (1..Move::INPUT_VALUES.size).each_with_object([]) do |_, arr|
+    arr << (100.0 / Move::INPUT_VALUES.size)
+  end
+
+  def initialize
+    super
+    @weighting = INITIAL_WEIGHTING
+  end
+  
   def set_name
     self.name = ['R2D2', 'Hal', "Chappie", "Sonny", "Number 5"].sample
   end
 
-  def choose(choices)
-    self.move = choices.sample
+  def evaluate_and_choose(game_history)
+    proportion = process_history_data(game_history)
+    update_weighting(proportion)
+    self.move = weighted_array.sample
+    binding.pry
   end
+
+  private
+  
+  def weighted_array
+    @weighted_array = []
+    Move::INPUT_TO_FULL_VALUES.values.each_with_index do |val, idx|
+      (@weighting[idx]).to_i.times do
+        @weighted_array << val
+      end
+    end
+    @weighted_array
+  end
+      
+  def update_weighting(proportion)
+    if proportion > 0.6 || @weighting[0] > 4
+      @weighting[0] -= 5
+      @weighting[1] += 1.25
+      @weighting[2] += 1.25
+      @weighting[3] += 1.25
+      @weighting[4] += 1.25
+    end
+  end
+
+  def process_history_data(history)
+    computer_selects_rock = history.select do |round|
+      round[1] == "rock"
+    end
+    human_wins_when_computer_rock, = computer_selects_rock.partition do |round|
+      round[2] == "human"
+    end
+    return (human_wins_when_computer_rock.size.to_f / computer_selects_rock.size)
+  end
+
+
+  
 end
 
 # Game Orchestration Engine
 class RPSGame
   WINNING_SCORE = 5
-  INITIAL_WEIGHTING = (1..Move::INPUT_VALUES.size).each_with_object([]) do |_, arr|
-    arr << (100.0 / Move::INPUT_VALUES.size)
-  end
 
   attr_accessor :human, :computer, :game_history, :weighting
 
@@ -125,7 +169,6 @@ class RPSGame
     @human = Human.new
     @computer = Computer.new
     @game_history = []
-    @weighting = INITIAL_WEIGHTING
     @round_winner = ""
     @computer_selects_rock = []
     @human_wins_when_computer_rock = []
@@ -202,59 +245,21 @@ class RPSGame
     display_welcome_message
     loop do
       until human.score == WINNING_SCORE || computer.score == WINNING_SCORE
-        gather_history_data
-        update_weighting
         human.choose
-        computer.choose(weighted_array)
+        computer.evaluate_and_choose(@game_history)
         display_moves
         calculate_winner
         display_winner
         display_score
       end
       display_overall_winner
-      human.score = 0
-      computer.score = 0
+      human.score, computer.score = 0, 0
       break unless play_again?
     end
     display_goodbye_message
   end
-
-########################### WEIGHTING BELOW HERE
-  def weighted_array
-    @weighted_array = []
-    Move::INPUT_TO_FULL_VALUES.values.each_with_index do |val, idx|
-      (@weighting[idx]).to_i.times do
-        @weighted_array << val
-      end
-    end
-    @weighted_array
-  end
-      
-  def update_weighting
-    if @human_wins_when_computer_rock.size.to_f / @computer_selects_rock.size > 0.6
-      if @weighting[0] > 4
-        @weighting[0] -= 5
-        @weighting[1] += 1.25
-        @weighting[2] += 1.25
-        @weighting[3] += 1.25
-        @weighting[4] += 1.25
-      end
-    end
-  end
-
-  def gather_history_data
-    @computer_selects_rock = @game_history.select do |round|
-      round[1] == "rock"
-    end
-    @human_wins_when_computer_rock, = @computer_selects_rock.partition do |round|
-      round[2] == "human"
-    end
-  end
+  
 end
-
-
-########################## WEIGHTING ENDS HERE
-
 
 
 RPSGame.new.play
