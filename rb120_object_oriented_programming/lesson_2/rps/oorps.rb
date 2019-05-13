@@ -45,19 +45,6 @@ class Move
       (spock? && other_move.rock?)
   end
 
-  def <(other_move)
-    (rock? && other_move.paper?) ||
-      (rock? && other_move.spock?) ||
-      (paper? && other_move.lizard?) ||
-      (paper? && other_move.scissors?) ||
-      (scissors? && other_move.spock?) ||
-      (scissors? && other_move.rock?) ||
-      (lizard? && other_move.rock?) ||
-      (lizard? && other_move.scissors?) ||
-      (spock? && other_move.paper?) ||
-      (spock? && other_move.lizard?)
-  end
-
   def tie(other_value)
     # @value == other_value
   end
@@ -136,13 +123,12 @@ class Computer < Player
   end
 
   def update_weighting(proportion)
-    if proportion > 0.6 || @weighting[0] <= 4
-      @weighting[0] -= 5
-      @weighting[1] += 1.25
-      @weighting[2] += 1.25
-      @weighting[3] += 1.25
-      @weighting[4] += 1.25
-    end
+    return if proportion < 0.6 || @weighting[0] > 4
+    @weighting[0] -= 5
+    @weighting[1] += 1.25
+    @weighting[2] += 1.25
+    @weighting[3] += 1.25
+    @weighting[4] += 1.25
   end
 
   def process_history_data(history)
@@ -232,12 +218,9 @@ class RPSGame
       break if ['y', 'n'].include?(answer.downcase)
       puts "Sorry, must be y or n."
     end
-    if answer.downcase == "y"
-      system('clear') || system('cls')
-      return true
-    else
-      return false
-    end
+    return false if answer.downcase == "n"
+    system('clear') || system('cls')
+    true
   end
 
   def play
