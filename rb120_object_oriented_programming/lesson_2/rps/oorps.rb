@@ -186,16 +186,18 @@ class RPSGame
   end
 
   def calculate_winner
-    if human.move > computer.move
+    human_move = human.move
+    computer_move = computer.move
+    if human_move > computer_move
       human.score += 1
-      @game_history << [human.move, computer.move, "human"]
+      @game_history << [human_move, computer_move, "human"]
       @round_winner = "human"
     elsif human.move == computer.move
-      @game_history << [human.move, computer.move, "tie"]
+      @game_history << [human_move, computer_move, "tie"]
       @round_winner = "tie"
     else
       computer.score += 1
-      @game_history << [human.move, computer.move, "computer"]
+      @game_history << [human_move, computer_move, "computer"]
       @round_winner = "computer"
     end
   end
