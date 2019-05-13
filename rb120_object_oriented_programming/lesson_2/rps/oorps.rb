@@ -146,7 +146,7 @@ end
 class RPSGame
   WINNING_SCORE = 5
 
-  attr_accessor :human, :computer, :game_history, :weighting
+  attr_accessor :human, :computer, :game_history
 
   def initialize
     @human = Human.new
