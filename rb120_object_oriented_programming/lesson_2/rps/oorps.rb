@@ -120,7 +120,6 @@ class Computer < Player
     proportion = process_history_data(game_history)
     update_weighting(proportion)
     self.move = weighted_array.sample
-    binding.pry
   end
 
   private
