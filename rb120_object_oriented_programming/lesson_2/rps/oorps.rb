@@ -223,23 +223,35 @@ class RPSGame
     true
   end
 
-  def play
+  def initialise_game
     system('clear') || system('cls')
     display_welcome_message
+  end
+
+  def main_game_loop
     loop do
-      until human.score == WINNING_SCORE || computer.score == WINNING_SCORE
-        human.choose
-        computer.evaluate_and_choose(@game_history)
-        display_moves
-        calculate_winner
-        display_winner
-        display_score
-      end
+      game_sub_loop
       display_overall_winner
       human.score = 0
       computer.score = 0
       break unless play_again?
     end
+  end
+
+  def game_sub_loop
+    until human.score == WINNING_SCORE || computer.score == WINNING_SCORE
+      human.choose
+      computer.evaluate_and_choose(@game_history)
+      display_moves
+      calculate_winner
+      display_winner
+      display_score
+    end
+  end
+
+  def play
+    initialise_game
+    main_game_loop
     display_goodbye_message
   end
 end
