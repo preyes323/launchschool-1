@@ -2,11 +2,11 @@ require 'pry'
 
 class Move
   INPUT_VALUES = %w(ro pa sc li sp)
-  INPUT_TO_FULL_VALUES = { 'ro' => "rock",
-                           'pa' => 'paper',
-                           'sc' => 'scissors',
-                           'li' => 'lizard',
-                           'sp' => 'spock' }
+  INPUT_TO_FULL_VALUES = { 'ro' => "Rock",
+                           'pa' => 'Paper',
+                           'sc' => 'Scissors',
+                           'li' => 'Lizard',
+                           'sp' => 'Spock' }
 
   def initialize(value)
     @value = value
@@ -54,6 +54,36 @@ class Move
   end
 end
 
+class Rock < Move
+  def >(other_move)
+    other_move.class == Scissors || other_move.class == Lizard
+  end
+end
+
+class Paper < Move
+  def >(other_move)
+    other_move.class == Rock || other_move.class == Spock
+  end
+end
+
+class Scissors < Move
+  def >(other_move)
+    other_move.class == Paper || other_move.class == Lizard
+  end
+end
+
+class Spock < Move
+  def >(other_move)
+    other_move.class == Scissors || other_move.class == Rock
+  end
+end
+
+class Lizard < Move
+  def >(other_move)
+    other_move.class == Spock || other_move.class == Paper
+  end
+end
+
 class Player
   attr_accessor :move, :name, :score
 
@@ -85,7 +115,7 @@ class Human < Player
       break if Move::INPUT_TO_FULL_VALUES.values.include?(choice)
       puts "Sorry, invalid choice."
     end
-    self.move = choice
+    self.move = Object.const_get(choice).new(choice)
   end
 end
 
@@ -107,7 +137,8 @@ class Computer < Player
   def evaluate_and_choose(game_history)
     proportion = process_history_data(game_history)
     update_weighting(proportion)
-    self.move = weighted_array.sample
+    choice = weighted_array.sample
+    self.move = Object.const_get(choice).new(choice)
   end
 
   private
